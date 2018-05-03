@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.Entities.Firma>
+@{
+    ViewBag.Title = "Firma Bilgileri";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-header">
+                @using (Html.BeginForm("Ara", "Firma", FormMethod.Get))
+                {
+                    <div class="input-group" style="width:300px">
+                        <input type="text" name="vergiNo" class="form-control" placeholder="Vergi No Giriniz...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>}
+                <div class="pull-right box-tools">
+                    @Html.ActionLink("Firma Ekle", "Ekle", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="tableFirmaListesi" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>SIRA NO</th>
+                            <th>VERGİ NO</th>
+                            <th>ADI</th>
+                            <th>BÖLGE KODU</th>
+                            <th style="width:10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FirmaId</td>
+                                <td>@item.VergiNo</td>
+                                <td>@item.Adi</td>
+                                <td>@item.BolgeKod.Adi</td>
+                                <td>
+                                    @Html.ActionLink("Güncelle", "Duzenle", new { item.FirmaId }, new { @class = "btn btn-primary btn-xs" })
+                                    @Html.Hidden("FirmaId", item.FirmaId)
+                                    @Html.ActionLink("Sil", "Sil", item.FirmaId, new { @class = "btn btn-danger btn-xs" })
+                                    @Html.Hidden("FirmaId", item.FirmaId)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

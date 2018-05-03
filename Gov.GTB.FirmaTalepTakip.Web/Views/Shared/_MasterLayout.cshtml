@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Firma Talep Takip Programı</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link href="~/Content/CSS/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/CSS/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/CSS/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/CSS/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Content/CSS/skin-blue.min.css">
+    <link href="~/Content/CSS/datepicker3.css" rel="stylesheet" />
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 2.2.0 -->
+    <script src="~/Scripts/jquery-2.2.0.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">FTT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">Firma Talep Takip</span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                @if (ViewBag.ActionResultMessage != null)
+                {
+                    <div class="alert alert-@ViewBag.ActionResultMessageType alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-info"></i> @ViewBag.ActionResultMessage</h4>
+                    </div>
+                }
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/Account/LogOut" title="Çıkış"><i class="fa fa-sign-out"></i>Çıkış</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div class="info">
+                        @if (@Session["CurrentUserName_SurName"] != null)
+                        {
+                            <p style="color:white">@Session["CurrentUserName_SurName"].ToString()</p>
+                        }
+                        else
+                        {<p> Kullanıcı Adı </p>}
+                    </div>
+                    <br />
+                </div>
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+                    @Html.Action("Menu", "Nav")
+                </ul>
+                <!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    @ViewBag.Title
+                    <small>@ViewBag.Description</small>
+                </h1>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Firma Talep Takip Programı
+            </div>
+            <!-- Default to the left -->
+            Copyright &copy; 2018 <a href="#">Gümrük ve Ticaret Bakanlığı Bilgi İşlem Dairesi</a>
+        </footer>
+    </div>
+</body>
+</html>

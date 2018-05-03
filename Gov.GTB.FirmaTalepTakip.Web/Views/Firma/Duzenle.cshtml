@@ -1,0 +1,41 @@
+﻿@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.FirmaViewModel
+@{
+    ViewBag.Title = "Firma Bölge Düzenle";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm("KaydetGuncelle", "Firma", FormMethod.Post))
+{
+    @Html.Hidden("FirmaId", Model.FirmaId)
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    @foreach (var property in ViewData.ModelMetadata.Properties)
+                    {
+                        switch (property.PropertyName)
+                        {
+                            case "FirmaId":
+                            case "BolgeKod":
+                            case "TcNoIrtibatPersoneli":
+                                // do nothing
+                                break;
+                            default:
+                                <div class="form-group">
+                                    <label>@(property.DisplayName ?? property.PropertyName)</label>
+                                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                                    @Html.ValidationMessage(property.PropertyName)
+                                </div>
+                                break;
+                        }
+                    }
+
+                </div>
+                <div class="box-footer">
+                    <a href="Liste" class="btn btn-danger">İptal</a>
+                    <button type="submit" class="btn btn-primary pull-right">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
