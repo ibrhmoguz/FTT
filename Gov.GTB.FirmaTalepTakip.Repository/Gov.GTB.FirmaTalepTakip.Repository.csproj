@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201805022003314_GumrukKodFirma.Designer.cs">
       <DependentUpon>201805022003314_GumrukKodFirma.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805031530564_IrtibatPersonel.cs" />
+    <Compile Include="Migrations\201805031530564_IrtibatPersonel.Designer.cs">
+      <DependentUpon>201805031530564_IrtibatPersonel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GumrukKodRepository.cs" />
@@ -97,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805022003314_GumrukKodFirma.resx">
       <DependentUpon>201805022003314_GumrukKodFirma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805031530564_IrtibatPersonel.resx">
+      <DependentUpon>201805031530564_IrtibatPersonel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

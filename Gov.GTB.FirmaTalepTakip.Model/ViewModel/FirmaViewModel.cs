@@ -13,7 +13,6 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public string VergiNo { get; set; }
 
         [MaxLength(11)]
-        [Required(ErrorMessage = "Irtibat personeli TC No giriniz!")]
         [DisplayName("İrtibat Personeli Kimlik No")]
         public string TcNoIrtibatPersoneli { get; set; }
 

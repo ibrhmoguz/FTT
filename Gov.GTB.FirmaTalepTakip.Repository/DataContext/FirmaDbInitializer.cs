@@ -37,7 +37,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var firmalar = new List<Firma>
             {
-                new Firma { VergiNo=124123, Adi="Firma1", BolgeKodu = "123", TcNoIrtibatPersoneli= 11111111114},
+                new Firma { VergiNo=124123, Adi="Firma1", BolgeKodu = "123", TcNoIrtibatPersoneli= "11111111114"},
             };
             firmalar.ForEach(f => context.Firmalar.Add(f));
 

@@ -1,19 +1,19 @@
 ﻿@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete;
 @model Gov.GTB.FirmaTalepTakip.Model.ViewModel.FirmaViewModel
 @{
-    ViewBag.Title = "Firma " + ((@Model.IsDisabled) ? "Düzenle" : "Kaydet");
+    ViewBag.Title = "Firma " + ((@Model.IsDisabled) ? "Düzenle" : "Kayıt");
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
-<script type="text/javascript">
-    $(function () {
-        if ($("#IsDisabled").val() == "True") {
-            $("input").each(function () {
-                $(this).attr("disabled", "disabled");
-            });
-        }
-    });
-</script>
+@*<script type="text/javascript">
+        $(function () {
+            if ($("#IsDisabled").val() == "True") {
+                $("input").each(function () {
+                    $(this).attr("disabled", "disabled");
+                });
+            }
+        });
+    </script>*@
 
 @{
     var bolgeKodlari = new List<SelectListItem> { };
@@ -36,32 +36,35 @@
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-body">
-                    @foreach (var property in ViewData.ModelMetadata.Properties)
-                    {
-                        switch (property.PropertyName)
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("VergiNo", ViewData.ModelState)">
+                        <label>Vergi No </label>
+                        @if (!Model.IsDisabled)
                         {
-                            case "FirmaId":
-                            case "GumrukKodlari":
-                            case "IsDisabled":
-                                // do nothing
-                                break;
-                            case "BolgeKodu":
-                                <div class="form-group @FirmaHtmlHelper.ValidationClass(property.PropertyName, ViewData.ModelState)">
-                                    <label>@(property.DisplayName ?? property.PropertyName)</label>
-                                    @Html.DropDownListFor(model => model.BolgeKodu, bolgeKodlari, "Bölge Kodu Seçiniz...", new { @class = "form-control" })
-                                    @Html.ValidationMessage(property.PropertyName, "", new { @class = "help-block" })
-                                </div>
-                                break;
-                            default:
-                                <div class="form-group @FirmaHtmlHelper.ValidationClass(property.PropertyName, ViewData.ModelState)">
-                                    <label>@(property.DisplayName ?? property.PropertyName)</label>
-                                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                                    @Html.ValidationMessage(property.PropertyName, "", new { @class = "help-block" })
-                                </div>
-                                break;
+                            @Html.TextBoxFor(m => m.VergiNo, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.VergiNo, "", new { @class = "help-block" })
                         }
-                    }
-
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.VergiNo, null, new { @class = "form-control", @readonly = true })
+                        }
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Adi", ViewData.ModelState)">
+                        <label>Adı </label>
+                        @if (!Model.IsDisabled)
+                        {
+                            @Html.TextBoxFor(m => m.Adi, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Adi, "", new { @class = "help-block" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.Adi, null, new { @class = "form-control", @readonly = true })
+                        }
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("BolgeKodu", ViewData.ModelState)">
+                        <label>Bölge Kodu </label>
+                        @Html.DropDownListFor(m => m.BolgeKodu, bolgeKodlari, "Bölge Kodu Seçiniz...", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.BolgeKodu, "", new { @class = "help-block" })
+                    </div>
                 </div>
                 <div class="box-footer">
                     <a href="Liste" class="btn btn-danger">İptal</a>
