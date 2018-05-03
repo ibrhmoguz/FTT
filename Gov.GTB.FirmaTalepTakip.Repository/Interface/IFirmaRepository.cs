@@ -8,5 +8,6 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
         IEnumerable<Firma> FirmaListesi();
         Firma FirmaGetir(int firmaId);
         bool FirmaKaydetGuncelle(Firma firma);
+        bool FirmaSil(int firmaId);
     }
 }

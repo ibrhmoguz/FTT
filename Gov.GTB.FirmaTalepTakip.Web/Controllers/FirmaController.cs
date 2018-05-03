@@ -80,5 +80,11 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             var bolgeKodlari = bolgeKodRepository.BolgeKodListesi();
             return Mapper.Map<IEnumerable<GumrukKod>, IEnumerable<GumrukKodViewModel>>(bolgeKodlari);
         }
+
+        public ActionResult Sil(int firmaId)
+        {
+            firmaRepository.FirmaSil(firmaId);
+            return RedirectToAction("Liste");
+        }
     }
 }

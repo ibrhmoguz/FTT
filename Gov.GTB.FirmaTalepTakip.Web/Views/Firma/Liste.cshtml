@@ -43,9 +43,7 @@
                                 <td>@item.BolgeKod.Adi</td>
                                 <td>
                                     @Html.ActionLink("Güncelle", "Duzenle", new { item.FirmaId }, new { @class = "btn btn-primary btn-xs" })
-                                    @Html.Hidden("FirmaId", item.FirmaId)
-                                    @Html.ActionLink("Sil", "Sil", item.FirmaId, new { @class = "btn btn-danger btn-xs" })
-                                    @Html.Hidden("FirmaId", item.FirmaId)
+                                    @Html.ActionLink("Sil", "Sil", new { item.FirmaId }, new { @class = "btn btn-danger btn-xs" })
                                 </td>
                             </tr>
                         }

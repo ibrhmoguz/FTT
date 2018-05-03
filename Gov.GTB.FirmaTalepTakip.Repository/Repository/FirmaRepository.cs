@@ -42,5 +42,17 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             dbContext.SaveChanges();
             return true;
         }
+
+        public bool FirmaSil(int firmaId)
+        {
+            if (firmaId > 0)
+            {
+                var firmaFromDb = this.FirmaGetir(firmaId);
+                dbContext.Firmalar.Remove(firmaFromDb);
+                dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
