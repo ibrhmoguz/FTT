@@ -6,6 +6,7 @@ using System;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using AutoMapper;
+using System.Collections.Generic;
 
 namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 {
@@ -14,10 +15,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     public class FirmaController : Controller
     {
         private IFirmaRepository firmaRepository;
+        private IGumrukKodRepository bolgeKodRepository;
 
-        public FirmaController(IFirmaRepository firmaRepository)
+        public FirmaController(IFirmaRepository firmaRepository, IGumrukKodRepository bolgeKodRepository)
         {
             this.firmaRepository = firmaRepository;
+            this.bolgeKodRepository = bolgeKodRepository;
         }
 
         // GET: Firma
@@ -30,6 +33,8 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         public ActionResult Ekle()
         {
             var firmaViewModel = new FirmaViewModel();
+            firmaViewModel.GumrukKodlari = BolgeKodGetir();
+            firmaViewModel.IsDisabled = false;
             return View("Duzenle", firmaViewModel);
         }
 
@@ -37,14 +42,29 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         {
             var firmaFromDb = firmaRepository.FirmaGetir(firmaId);
             var firmaViewModel = Mapper.Map<Firma, FirmaViewModel>(firmaFromDb);
+            firmaViewModel.GumrukKodlari = BolgeKodGetir();
+            firmaViewModel.IsDisabled = true;
             return View(firmaViewModel);
         }
 
-        public RedirectToRouteResult KaydetGuncelle(FirmaViewModel firmaViewModel)
+        [HttpPost]
+        public ActionResult Duzenle(FirmaViewModel firmaViewModel)
         {
-            var firma = Mapper.Map<FirmaViewModel, Firma>(firmaViewModel);
-            firmaRepository.FirmaKaydetGuncelle(firma);
-            return RedirectToAction("Liste");
+            if (ModelState.IsValid)
+            {
+                var firma = Mapper.Map<FirmaViewModel, Firma>(firmaViewModel);
+                firmaRepository.FirmaKaydetGuncelle(firma);
+                return RedirectToAction("Liste");
+            }
+            else
+            {
+                firmaViewModel.GumrukKodlari = BolgeKodGetir();
+                if (firmaViewModel.FirmaId > 0)
+                {
+                    firmaViewModel.IsDisabled = true;
+                }
+                return View("Duzenle", firmaViewModel);
+            }
         }
 
         public ActionResult Ara(string vergiNo)
@@ -53,6 +73,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             var firmalar = firmaRepository.FirmaListesi();
             var filteredFirmalar = firmalar.Where(z => z.VergiNo == vergiNoParam);
             return View("Liste", filteredFirmalar);
+        }
+
+        private IEnumerable<GumrukKodViewModel> BolgeKodGetir()
+        {
+            var bolgeKodlari = bolgeKodRepository.BolgeKodListesi();
+            return Mapper.Map<IEnumerable<GumrukKod>, IEnumerable<GumrukKodViewModel>>(bolgeKodlari);
         }
     }
 }

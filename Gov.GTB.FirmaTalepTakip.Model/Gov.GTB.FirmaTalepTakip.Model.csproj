@@ -54,6 +54,7 @@
     <Compile Include="Enums\RolEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\FirmaViewModel.cs" />
+    <Compile Include="ViewModel\GumrukKodViewModel.cs" />
     <Compile Include="ViewModel\KullaniciYetkileri.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
   </ItemGroup>

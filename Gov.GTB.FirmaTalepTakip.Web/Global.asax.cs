@@ -21,6 +21,8 @@ namespace Gov.GTB.FirmaTalepTakip.Web
             {
                 m.CreateMap<Firma, FirmaViewModel>();
                 m.CreateMap<FirmaViewModel, Firma>();
+                m.CreateMap<GumrukKod, GumrukKodViewModel>();
+                m.CreateMap<GumrukKodViewModel, GumrukKod>();
             });
         }
 

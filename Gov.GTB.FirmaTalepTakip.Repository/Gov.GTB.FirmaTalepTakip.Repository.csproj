@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DataContext\FirmaDbContext.cs" />
     <Compile Include="DataContext\FirmaDbInitializer.cs" />
+    <Compile Include="Interface\IGumrukKodRepository.cs" />
     <Compile Include="Interface\IFirmaRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Migrations\201805021307413_Initial.cs" />
@@ -71,6 +72,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GumrukKodRepository.cs" />
     <Compile Include="Repository\FirmaRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>

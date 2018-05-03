@@ -29,6 +29,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             if (firma.FirmaId != 0)
             {
                 var firmaFromDb = this.FirmaGetir(firma.FirmaId);
+                firmaFromDb.Adi = firma.Adi;
+                firmaFromDb.VergiNo = firma.VergiNo;
+                firmaFromDb.TcNoIrtibatPersoneli = firma.TcNoIrtibatPersoneli;
                 firmaFromDb.BolgeKodu = firma.BolgeKodu;
             }
             else
