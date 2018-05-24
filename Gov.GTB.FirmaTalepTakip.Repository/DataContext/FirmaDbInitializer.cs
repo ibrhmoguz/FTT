@@ -1,4 +1,5 @@
 ﻿using Gov.GTB.FirmaTalepTakip.Model.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 
@@ -49,6 +50,46 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
                 new GumrukKod {Adi = "Guney Doğu Bölge", BolgeKodu = "789"}
             };
             gumrukKodlari.ForEach(g => context.GumrukKodlari.Add(g));
+
+
+            var cevapKonulari = new List<RefTalepCevap>
+            {
+                new RefTalepCevap { CKonu = "Talep, Bakanlık Merkez teşkilatına iletildi."},
+                new RefTalepCevap {CKonu = "Talep, ilgili gümrük müdürlükleri nezdinde incelenmektedir."},
+                new RefTalepCevap {CKonu = "Talep hakkında ilgili gümrük idarelerine gerekli talimat verildi"}
+
+            };
+            cevapKonulari.ForEach(c => context.CevapKonulari.Add(c));
+
+
+            var talepKonulari = new List<RefTalepKonu>
+            {
+                new RefTalepKonu { TKonu = "Tarife,Menşe,Kıymet"},
+                new RefTalepKonu {TKonu = "İthalat"},
+                new RefTalepKonu {TKonu = "İhracat"}
+
+            };
+            talepKonulari.ForEach(t => context.TalepKonulari.Add(t));
+
+
+            var CevapDetayi = new List<CevapDetayGumruk>
+            {
+                new CevapDetayGumruk { TcNoIrtibatPersoneli = "36725314789", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314784", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314782", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"}
+
+            };
+            CevapDetayi.ForEach(d => context.CevapDetayi.Add(d));
+
+
+            var talepDetayi = new List<TalepDetayFirma>
+            {
+                new TalepDetayFirma { TalepReferansNo = "20180400011", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
+                new TalepDetayFirma {TalepReferansNo = "20180400012", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
+                new TalepDetayFirma {TalepReferansNo = "20180400013", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
+
+            };
+            talepDetayi.ForEach(z => context.TalepDetayi.Add(z));
 
             context.SaveChanges();
         }
