@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.Entities.Firma>
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.Entities.Firma>
 @{
     ViewBag.Title = "Firma Bilgileri";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -10,7 +11,7 @@
             <div class="box-header">
                 @using (Html.BeginForm("Ara", "Firma", FormMethod.Get))
                 {
-                    <div class="input-group" style="width: 300px">
+                    <div class="input-group @FirmaHtmlHelper.ValidationClass("vergiNo", ViewData.ModelState)" style="width: 300px">
                         <input type="number" name="vergiNo" class="form-control" placeholder="Vergi No Giriniz...">
 
                         <span class="input-group-btn">

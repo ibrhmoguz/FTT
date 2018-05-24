@@ -14,7 +14,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
                 var fieldValue = modelState.Values.ToList()[fieldIndex];
                 if (fieldValue != null)
                 {
-                    if (fieldValue.Errors.Count() > 0)
+                    if (fieldValue.Errors.Any())
                     {
                         return new HtmlString("has-error");
                     }
