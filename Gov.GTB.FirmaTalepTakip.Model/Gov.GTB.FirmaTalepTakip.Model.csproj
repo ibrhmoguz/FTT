@@ -45,12 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CevapDetayGumruk.cs" />
     <Compile Include="Entities\Firma.cs" />
     <Compile Include="Entities\FirmaKullanici.cs" />
     <Compile Include="Entities\GumrukKod.cs" />
     <Compile Include="Entities\Kullanici.cs" />
+    <Compile Include="Entities\RefTalepCevap.cs" />
+    <Compile Include="Entities\RefTalepKonu.cs" />
     <Compile Include="Entities\Rol.cs" />
     <Compile Include="Entities\GumrukKullanici.cs" />
+    <Compile Include="Entities\TalepDetayFirma.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\RolEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\FirmaViewModel.cs" />
