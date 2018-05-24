@@ -25,11 +25,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
 
         public static IHtmlString Disabled(int id)
         {
-            if (id > 0)
-            {
-                return new HtmlString("true");
-            }
-            return new HtmlString("false");
+            return id > 0 ? new HtmlString("true") : new HtmlString("false");
         }
     }
 }
