@@ -72,14 +72,14 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
             talepKonulari.ForEach(t => context.TalepKonulari.Add(t));
 
 
-            var CevapDetayi = new List<CevapDetayGumruk>
+            var cevapDetayi = new List<CevapDetayGumruk>
             {
                 new CevapDetayGumruk { TcNoIrtibatPersoneli = "36725314789", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"},
                 new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314784", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"},
                 new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314782", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi="20180400011"}
 
             };
-            CevapDetayi.ForEach(d => context.CevapDetayi.Add(d));
+            cevapDetayi.ForEach(d => context.CevapDetayi.Add(d));
 
 
             var talepDetayi = new List<TalepDetayFirma>

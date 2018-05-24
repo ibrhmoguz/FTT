@@ -10,14 +10,17 @@
             <div class="box-header">
                 @using (Html.BeginForm("Ara", "Firma", FormMethod.Get))
                 {
-                    <div class="input-group" style="width:300px">
-                        <input type="text" name="vergiNo" class="form-control" placeholder="Vergi No Giriniz...">
+                    <div class="input-group" style="width: 300px">
+                        <input type="number" name="vergiNo" class="form-control" placeholder="Vergi No Giriniz...">
+
                         <span class="input-group-btn">
                             <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                    </div>}
+                    </div>
+                }
+                @Html.ValidationMessage("vergiNo", "", new { @class = "text-danger" })
                 <div class="pull-right box-tools">
                     @Html.ActionLink("Firma Ekle", "Ekle", null, new { @class = "btn btn-success" })
                 </div>
