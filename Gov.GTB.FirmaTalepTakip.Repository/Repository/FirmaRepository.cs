@@ -8,20 +8,20 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
 {
     public class FirmaRepository : IFirmaRepository
     {
-        FirmaDbContext dbContext;
+        private readonly FirmaDbContext _dbContext;
         public FirmaRepository(FirmaDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public IEnumerable<Firma> FirmaListesi()
         {
-            return dbContext.Firmalar.ToList();
+            return _dbContext.Firmalar.ToList();
         }
 
         public Firma FirmaGetir(int firmaId)
         {
-            return dbContext.Firmalar.FirstOrDefault(f => f.FirmaId == firmaId);
+            return _dbContext.Firmalar.FirstOrDefault(f => f.FirmaId == firmaId);
         }
 
         public bool FirmaKaydetGuncelle(Firma firma)
@@ -36,23 +36,21 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             }
             else
             {
-                dbContext.Firmalar.Add(firma);
+                _dbContext.Firmalar.Add(firma);
             }
 
-            dbContext.SaveChanges();
+            _dbContext.SaveChanges();
             return true;
         }
 
         public bool FirmaSil(int firmaId)
         {
-            if (firmaId > 0)
-            {
-                var firmaFromDb = this.FirmaGetir(firmaId);
-                dbContext.Firmalar.Remove(firmaFromDb);
-                dbContext.SaveChanges();
-                return true;
-            }
-            return false;
+            if (firmaId <= 0) return false;
+
+            var firmaFromDb = this.FirmaGetir(firmaId);
+            _dbContext.Firmalar.Remove(firmaFromDb);
+            _dbContext.SaveChanges();
+            return true;
         }
     }
 }

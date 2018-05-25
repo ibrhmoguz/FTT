@@ -8,15 +8,15 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
 {
     public class GumrukKodRepository : IGumrukKodRepository
     {
-        FirmaDbContext dbContext;
+        private readonly FirmaDbContext _dbContext;
         public GumrukKodRepository(FirmaDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this._dbContext = dbContext;
         }
 
         public IEnumerable<GumrukKod> BolgeKodListesi()
         {
-            return dbContext.GumrukKodlari.ToList();
+            return _dbContext.GumrukKodlari.ToList();
         }
     }
 }

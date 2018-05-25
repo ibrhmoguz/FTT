@@ -9,32 +9,32 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly FirmaDbContext dbContext;
+        private readonly FirmaDbContext _dbContext;
         public UserRepository(FirmaDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this._dbContext = dbContext;
         }
 
         public IEnumerable<Kullanici> KullanicilariGetir()
         {
-            return dbContext.Kullanici.ToList();
+            return _dbContext.Kullanici.ToList();
         }
 
         public IEnumerable<GumrukKullanici> GumrukKullanicilariGetir()
         {
-            return dbContext.GumrukKullanicilar.ToList();
+            return _dbContext.GumrukKullanicilar.ToList();
         }
 
         public IEnumerable<FirmaKullanici> FirmaKullanicilariGetir()
         {
-            return dbContext.FirmaKullanicilar.ToList();
+            return _dbContext.FirmaKullanicilar.ToList();
         }
 
         public bool FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici)
         {
             if (firmaKullanici.Id != 0)
             {
-                var kullaniciFromDb = this.dbContext.FirmaKullanicilar.FirstOrDefault(kullanici => kullanici.Id == firmaKullanici.Id);
+                var kullaniciFromDb = this._dbContext.FirmaKullanicilar.FirstOrDefault(kullanici => kullanici.Id == firmaKullanici.Id);
                 if (kullaniciFromDb == null) return false;
 
                 kullaniciFromDb.Sifre = firmaKullanici.Sifre;
@@ -50,10 +50,10 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             {
                 firmaKullanici.RolId = (int)RolEnum.FIP;
                 firmaKullanici.Durum = false;
-                dbContext.FirmaKullanicilar.Add(firmaKullanici);
+                _dbContext.FirmaKullanicilar.Add(firmaKullanici);
             }
 
-            dbContext.SaveChanges();
+            _dbContext.SaveChanges();
             return true;
         }
     }
