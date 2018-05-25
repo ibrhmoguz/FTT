@@ -8,12 +8,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     {
         public PartialViewResult Menu()
         {
-            if (Session["CurrentUser_Auths"] != null)
-            {
-                return PartialView(Session["CurrentUser_Auths"]);
-            }
-
-            return null;
+            return PartialView(Session["CurrentUser_Auths"]);
         }
     }
 }

@@ -4,9 +4,7 @@
     Layout = null;
 }
 
-
-<li class="header">İşlemler Menüsü</li>
-@if (Model.KullaniciRolEnum == RolEnum.GGM)
+@if (Model != null && Model.KullaniciRolEnum == RolEnum.GGM)
 {
     <li><a href="/Firma/Liste"><i class="fa fa-search"></i> <span>Firma Bilgileri</span></a></li>
 }

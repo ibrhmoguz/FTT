@@ -1,13 +1,10 @@
 ﻿@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.LoginViewModel
-
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
-
 <div class="panel">
     <div class="panel-body">
-
         @using (Html.BeginForm())
         {
             <div class="form-group">
@@ -21,6 +18,7 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <input type="submit" value="Giriş" class="btn btn-primary" />
+            @Html.ActionLink("Yeni Kullanıcı", "YeniKullanici", null, new { @class = "btn btn-primary pull-right" })
             @Html.ValidationSummary()
         }
     </div>

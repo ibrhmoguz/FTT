@@ -1,0 +1,108 @@
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Helpers
+@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.FirmaKullaniciViewModel
+@{
+    ViewBag.Title = (Model.Id > 0) ? "Kullanıcı Bilgileri" : "Yeni Kullanıcı";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@{
+    var firmaListesi = new List<SelectListItem>();
+    if (Model.Firmalar != null)
+    {
+        Model.Firmalar.ToList().ForEach(g => firmaListesi.Add(
+            new SelectListItem()
+            {
+                Text = g.Adi,
+                Value = g.FirmaId.ToString()
+            }));
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#FirmaId").change(function () {
+            var firmaId = $(this).val();
+            if (firmaId === '') {
+                $('#VergiNo').val('');
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: '/Account/FirmaVergiNoGetir?firmaId=' + firmaId,
+                    success: function (result) {
+                        console.log(result);
+                        $('#VergiNo').val(result);
+                    }
+                });
+            }
+        });
+
+        //$('.ajax').click(function() {
+        //    console.log("sdfsdf");
+        //    $.ajax({
+        //        url: '#',
+        //        success: function (result) {
+        //            $('.ajax-content').html('<hr>Ajax Request Completed !');
+        //        }
+        //    });
+        //});
+    });
+
+</script>
+
+@using (Html.BeginForm("FirmaKullaniciDuzenle", "Account", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Adi", ViewData.ModelState)">
+                        <label>Adı</label>
+                        @Html.TextBoxFor(m => m.Adi, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Adi, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Soyadi", ViewData.ModelState)">
+                        <label>Soyadı</label>
+                        @Html.TextBoxFor(m => m.Soyadi, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Soyadi, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("TcNo", ViewData.ModelState)">
+                        <label>TC No</label>
+                        @Html.TextBoxFor(m => m.TcNo, null, new { @class = "form-control", @type = "number" })
+                        @Html.ValidationMessageFor(m => m.TcNo, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("FirmaId", ViewData.ModelState)">
+                        <label>Firma</label>
+                        @Html.DropDownListFor(m => m.FirmaId, firmaListesi, Resources.SelectInfoMsg, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FirmaId, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("VergiNo", ViewData.ModelState)">
+                        <label>Firma Vergi No</label>
+                        @Html.TextBoxFor(m => m.VergiNo, null, new { @class = "form-control", @type = "number", @readonly = true })
+                        @Html.ValidationMessageFor(m => m.VergiNo, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Email", ViewData.ModelState)">
+                        <label>E-mail</label>
+                        @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Telefon", ViewData.ModelState)">
+                        <label>Telefon</label>
+                        @Html.TextBoxFor(m => m.Telefon, null, new { @class = "form-control", @type = "text" })
+                        @Html.ValidationMessageFor(m => m.Telefon, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("Sifre", ViewData.ModelState)">
+                        <label>Sifre</label>
+                        @Html.TextBoxFor(m => m.Sifre, null, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(m => m.Sifre, "", new { @class = "help-block" })
+                    </div>
+                    <div class="box-footer text-center">
+                        <button type="submit" class="btn btn-primary">Talebi Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

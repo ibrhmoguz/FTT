@@ -8,5 +8,6 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
         IEnumerable<Kullanici> KullanicilariGetir();
         IEnumerable<GumrukKullanici> GumrukKullanicilariGetir();
         IEnumerable<FirmaKullanici> FirmaKullanicilariGetir();
+        bool FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici);
     }
 }

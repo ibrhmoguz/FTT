@@ -19,15 +19,25 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Content/CSS/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Content/CSS/skin-blue.min.css">
+    <link href="~/Content/CSS/pace.min.css" rel="stylesheet" />
     <link href="~/Content/CSS/datepicker3.css" rel="stylesheet" />
     <!-- REQUIRED JS SCRIPTS -->
     <!-- jQuery 2.2.0 -->
     <script src="~/Scripts/jquery-2.2.0.min.js"></script>
     <!-- Bootstrap 3.3.6 -->
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/pace.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/Scripts/app.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(document).ajaxStart(function () {
+                Pace.restart();
+            });
+
+        });
+    </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -74,13 +84,17 @@
                             <p style="color:white">@Session["CurrentUserName_SurName"].ToString()</p>
                         }
                         else
-                        {<p> Kullanıcı Adı </p>}
+                        {<p> Yeni Kullanıcı </p>}
                     </div>
                     <br />
                 </div>
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
-                    @Html.Action("Menu", "Nav")
+                    <li class="header">İşlemler Menüsü</li>
+                    @if (@Session["CurrentUserName_SurName"] != null)
+                    {
+                        @Html.Action("Menu", "Nav")
+                    }
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
