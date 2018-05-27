@@ -1,0 +1,52 @@
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Helpers
+@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.ViewModel.FirmaKullaniciViewModel>
+@{
+    ViewBag.Title = "Firma Kullanıcı Talepleri";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-body">
+                <table id="tableKullaniciTalepleriListesi" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ADI</th>
+                            <th>SOYADI</th>
+                            <th>TC NO</th>
+                            <th>FİRMA ADI</th>
+                            <th>E-MAİL</th>
+                            <th>TELEFON</th>
+                            <th>DURUM</th>
+                            <th style="width:5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Adi</td>
+                                <td>@item.Soyadi</td>
+                                <td>@item.TcNo</td>
+                                <td>@item.FirmaAdi</td>
+                                <td>@item.Email</td>
+                                <td>@item.Telefon</td>
+                                <td>
+                                    @(item.Durum == true ? Html.Raw("ONAYLANDI") : Html.Raw("ONAYLANMADI"))
+                                </td>
+                                <td>
+                                    @if (!item.Durum)
+                                    {
+                                        @Html.ActionLink("Onayla", "FirmaKullaniciTalepOnayla", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

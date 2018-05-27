@@ -43,6 +43,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 
         [Required(ErrorMessage = "Firma seçiniz!")]
         public long FirmaId { get; set; }
+        public string FirmaAdi { get; set; }
 
         public IEnumerable<Firma> Firmalar { get; set; }
 

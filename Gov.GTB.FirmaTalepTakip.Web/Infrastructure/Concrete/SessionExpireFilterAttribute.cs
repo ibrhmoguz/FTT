@@ -10,7 +10,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
         {
             HttpContext ctx = HttpContext.Current;
             // check  sessions here
-            if (HttpContext.Current.Session["CurrentUserId"] == null)
+            if (HttpContext.Current.Session["CurrentUserTcNo"] == null)
             {
                 filterContext.Result = new RedirectResult("~/Account/Login");
                 return;

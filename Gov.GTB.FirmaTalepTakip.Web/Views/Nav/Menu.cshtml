@@ -8,3 +8,7 @@
 {
     <li><a href="/Firma/Liste"><i class="fa fa-search"></i> <span>Firma Bilgileri</span></a></li>
 }
+@if (Model != null && Model.KullaniciRolEnum == RolEnum.BIP)
+{
+    <li><a href="/Account/FirmaKullaniciTalepleri"><i class="fa fa-users"></i> <span>Firma Kullanıcı Talepleri</span></a></li>
+}

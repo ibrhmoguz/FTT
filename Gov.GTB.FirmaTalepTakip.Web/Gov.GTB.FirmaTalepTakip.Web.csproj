@@ -274,6 +274,7 @@
     <Content Include="Views\Firma\Duzenle.cshtml" />
     <Content Include="Views\Account\YeniKullanici.cshtml" />
     <Content Include="Views\Account\KullaniciTalepInfo.cshtml" />
+    <Content Include="Views\Account\FirmaKullaniciTalepleri.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

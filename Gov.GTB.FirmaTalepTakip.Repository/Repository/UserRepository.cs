@@ -58,5 +58,14 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             _dbContext.SaveChanges();
             return true;
         }
+
+        public void FirmaKullaniciTalepOnayla(int kullaniciId)
+        {
+            var firmaKullanici = _dbContext.FirmaKullanicilar.FirstOrDefault(kullanici => kullanici.Id == kullaniciId);
+            if (firmaKullanici == null) return;
+
+            firmaKullanici.Durum = true;
+            _dbContext.SaveChanges();
+        }
     }
 }
