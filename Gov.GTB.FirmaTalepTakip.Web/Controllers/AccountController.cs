@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Abstract;
 using System.Web.Mvc;
 using AutoMapper;
@@ -7,6 +8,7 @@ using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Model.Enums;
 using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
+using Gov.GTB.FirmaTalepTakip.Web.Helpers;
 
 namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 {
@@ -39,6 +41,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                 var kullanici = _userRepository.KullanicilariGetir().FirstOrDefault(x => x.TcNo == Convert.ToInt64(model.TcNo));
                 if (kullanici != null)
                 {
+                    if (!kullanici.Durum)
+                    {
+                        ModelState.AddModelError("IncorrectInfo", Resources.KullaniciTalebiOnayErrorMsg);
+                        return View();
+                    }
+
                     Session["CurrentUserId"] = kullanici.TcNo;
                     Session["CurrentUserName_SurName"] = kullanici.Adi + " " + kullanici.Soyadi;
                     RolEnum kullaniciRol;
@@ -49,7 +57,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                     return Redirect(returnUrl ?? Url.Action("Index", "Default"));
                 }
 
-                ModelState.AddModelError("IncorrectInfo", "Incorrect user name or password!");
+                ModelState.AddModelError("IncorrectInfo", Resources.KullaniciAdiParolaErrorMsg);
                 return View();
             }
             else
@@ -76,12 +84,16 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult FirmaKullaniciDuzenle(FirmaKullaniciViewModel firmaKullaniciViewModel)
+        public async Task<ActionResult> FirmaKullaniciDuzenle(FirmaKullaniciViewModel firmaKullaniciViewModel)
         {
             if (ModelState.IsValid)
             {
                 var firmaKullanici = Mapper.Map<FirmaKullaniciViewModel, FirmaKullanici>(firmaKullaniciViewModel);
-                _userRepository.FirmaKullaniciKaydetGuncelle(firmaKullanici);
+                await _userRepository.FirmaKullaniciKaydetGuncelle(firmaKullanici);
+                var firma = _firmaRepository.FirmaGetir(Convert.ToInt32(firmaKullaniciViewModel.FirmaId));
+                var irtibatPersoneli = _userRepository.KullanicilariGetir()
+                    .FirstOrDefault(kullanici => kullanici.TcNo.ToString().Equals(firma.TcNoIrtibatPersoneli));
+                await new MailHelper().SendMail(irtibatPersoneli.Email, string.Format(Resources.FirmaKullaniciOnayMailMsg, firmaKullanici.Adi, firmaKullanici.Soyadi));
                 return RedirectToAction("KullaniciTalepInfo");
             }
             else

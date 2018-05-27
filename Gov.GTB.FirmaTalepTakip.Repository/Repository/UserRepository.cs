@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Model.Enums;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
@@ -30,11 +32,11 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             return _dbContext.FirmaKullanicilar.ToList();
         }
 
-        public bool FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici)
+        public async Task<bool> FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici)
         {
             if (firmaKullanici.Id != 0)
             {
-                var kullaniciFromDb = this._dbContext.FirmaKullanicilar.FirstOrDefault(kullanici => kullanici.Id == firmaKullanici.Id);
+                var kullaniciFromDb = await _dbContext.FirmaKullanicilar.FirstOrDefaultAsync(kullanici => kullanici.Id == firmaKullanici.Id);
                 if (kullaniciFromDb == null) return false;
 
                 kullaniciFromDb.Sifre = firmaKullanici.Sifre;
