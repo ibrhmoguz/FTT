@@ -149,9 +149,10 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             return View("FirmaKullaniciTalepleri", userList);
         }
 
-        public ActionResult FirmaKullaniciTalepOnayla(int id)
+        public async Task<ActionResult> FirmaKullaniciTalepOnayla(int id)
         {
-            _userRepository.FirmaKullaniciTalepOnayla(id);
+            var userMail = _userRepository.FirmaKullaniciTalepOnayla(id);
+            await new MailHelper().SendMail(userMail, Resources.FirmaKullaniciOnaylandiMailMsg);
             return RedirectToAction("FirmaKullaniciTalepleri");
         }
     }

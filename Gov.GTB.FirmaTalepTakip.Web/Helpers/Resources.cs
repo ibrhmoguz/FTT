@@ -9,5 +9,6 @@
         public static string KullaniciAdiParolaErrorMsg = "Kullanıcı adı veya parola hatalı!";
         public static string KullaniciTalebiOnayErrorMsg = "Kullanıcı talebiniz henüz onaylanmamıştır!";
         public static string FirmaKullaniciOnayMailMsg = "{0} {1} adlı firma kullanıcısı size yeni kullanıcı talebi göndermiştir. Kullanıcı talep kayıtları menüsünden onaylayabilirsiniz.";
+        public static string FirmaKullaniciOnaylandiMailMsg = "Kullanıcı talebiniz oanylanmıştır. Firma Talep Takip programına TC. numaranız ve şifreniz ile giriş yapabilirsiniz.";
     }
 }
