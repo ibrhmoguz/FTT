@@ -14,22 +14,19 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
         public string TcNoIrtibatPersoneli { get; set; }
 
         [MaxLength(500)]
-        public string CevapBaslik{ get; set; }
+        public string CevapBaslik { get; set; }
 
         [MaxLength(1000)]
         public string CevapAciklama { get; set; }
 
 
         [DataType(DataType.DateTime)]
-       // [Column(TypeName = "datetime2")]
+        // [Column(TypeName = "datetime2")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? CevapTarih { get; set; }
 
-        [MaxLength(100)]
-        public string TalepReferansNumarasi { get; set; }
+        public long TalepReferansNumarasi { get; set; }
 
         public virtual TalepDetayFirma TalepReferansNo { get; set; }
-
-
     }
 }

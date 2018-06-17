@@ -61,13 +61,9 @@
     <Compile Include="Interface\IGumrukKodRepository.cs" />
     <Compile Include="Interface\IFirmaRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
-    <Compile Include="Migrations\201805240923363_Initial.cs" />
-    <Compile Include="Migrations\201805240923363_Initial.Designer.cs">
-      <DependentUpon>201805240923363_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806171440311_TalepFirmaDetay.cs" />
-    <Compile Include="Migrations\201806171440311_TalepFirmaDetay.Designer.cs">
-      <DependentUpon>201806171440311_TalepFirmaDetay.cs</DependentUpon>
+    <Compile Include="Migrations\201806171519448_Initial.cs" />
+    <Compile Include="Migrations\201806171519448_Initial.Designer.cs">
+      <DependentUpon>201806171519448_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,11 +87,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805240923363_Initial.resx">
-      <DependentUpon>201805240923363_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806171440311_TalepFirmaDetay.resx">
-      <DependentUpon>201806171440311_TalepFirmaDetay.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806171519448_Initial.resx">
+      <DependentUpon>201806171519448_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

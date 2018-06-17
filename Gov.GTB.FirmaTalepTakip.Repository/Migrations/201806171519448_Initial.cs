@@ -16,8 +16,8 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                         CevapBaslik = c.String(maxLength: 500),
                         CevapAciklama = c.String(maxLength: 1000),
                         CevapTarih = c.DateTime(),
-                        TalepReferansNumarasi = c.String(maxLength: 100),
-                        TalepReferansNo_TalepReferansNo = c.String(maxLength: 100),
+                        TalepReferansNumarasi = c.Long(nullable: false),
+                        TalepReferansNo_TalepReferansNo = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.TalepDetayFirma", t => t.TalepReferansNo_TalepReferansNo)
@@ -27,13 +27,14 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                 "dbo.TalepDetayFirma",
                 c => new
                     {
-                        TalepReferansNo = c.String(nullable: false, maxLength: 100),
+                        TalepReferansNo = c.Long(nullable: false, identity: true),
                         VergiNo = c.Long(nullable: false),
-                        TcNoFirmaKullanici = c.String(),
+                        TcNoFirmaKullanici = c.Long(nullable: false),
                         KonuTalepBaslik = c.String(maxLength: 500),
                         KonuTalepAciklama = c.String(maxLength: 1000),
                         TalepTarih = c.DateTime(),
                         BolgeKodu = c.String(maxLength: 500),
+                        CevapDurum = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.TalepReferansNo);
             
@@ -101,6 +102,22 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                 .PrimaryKey(t => t.BolgeKodu);
             
             CreateTable(
+                "dbo.TalepDetayFirmaLog",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        TalepReferansNo = c.Long(nullable: false),
+                        VergiNo = c.Long(nullable: false),
+                        TcNoFirmaKullanici = c.Long(nullable: false),
+                        KonuTalepBaslik = c.String(maxLength: 500),
+                        KonuTalepAciklama = c.String(maxLength: 1000),
+                        TalepTarih = c.DateTime(),
+                        BolgeKodu = c.String(maxLength: 500),
+                        CevapDurum = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.RefTalepKonu",
                 c => new
                     {
@@ -120,6 +137,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
             DropIndex("dbo.Kullanici", new[] { "RolId" });
             DropIndex("dbo.CevapDetayGumruk", new[] { "TalepReferansNo_TalepReferansNo" });
             DropTable("dbo.RefTalepKonu");
+            DropTable("dbo.TalepDetayFirmaLog");
             DropTable("dbo.GumrukKod");
             DropTable("dbo.Firma");
             DropTable("dbo.Rol");

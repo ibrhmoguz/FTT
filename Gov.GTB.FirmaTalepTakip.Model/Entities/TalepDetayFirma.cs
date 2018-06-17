@@ -7,11 +7,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
     public class TalepDetayFirma
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
-        [MaxLength(100)]
-        public string TalepReferansNo { get; set; }
+        public long TalepReferansNo { get; set; }
 
         public long VergiNo { get; set; }
 
