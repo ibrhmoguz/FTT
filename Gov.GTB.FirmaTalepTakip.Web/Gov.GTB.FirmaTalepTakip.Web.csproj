@@ -276,6 +276,8 @@
     <Content Include="Views\Account\YeniKullanici.cshtml" />
     <Content Include="Views\Account\KullaniciTalepInfo.cshtml" />
     <Content Include="Views\Account\FirmaKullaniciTalepleri.cshtml" />
+    <Content Include="Views\Talep\Liste.cshtml" />
+    <Content Include="Views\Talep\Duzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,7 +287,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Talep\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gov.GTB.FirmaTalepTakip.Model\Gov.GTB.FirmaTalepTakip.Model.csproj">

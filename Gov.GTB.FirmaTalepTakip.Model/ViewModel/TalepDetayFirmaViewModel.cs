@@ -1,25 +1,22 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Gov.GTB.FirmaTalepTakip.Model.Entities;
 
-namespace Gov.GTB.FirmaTalepTakip.Model.Entities
+namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 {
-    public class TalepDetayFirmaLog
+    public class TalepDetayFirmaViewModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+
+        public long SiraNo { get; set; }
 
         public long TalepReferansNo { get; set; }
 
         public long VergiNo { get; set; }
 
-        public string FirmaKullanici { get; set; }
+        public int FirmaKullaniciId { get; set; }
+        public virtual FirmaKullanici FirmaKullanici { get; set; }
 
-        [MaxLength(500)]
-        public string KonuTalepBaslik { get; set; }
-
-        [MaxLength(1000)]
         public string KonuTalepAciklama { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -31,7 +28,8 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
 
         public bool CevapDurum { get; set; }
 
-        public DateTime IslemTarih { get; set; }
+        public int RefTalepKonuId { get; set; }
+        public virtual RefTalepKonu RefTalepKonu { get; set; }
 
         public int? CevapDetayGumrukId { get; set; }
         public virtual CevapDetayGumruk CevapDetayGumruk { get; set; }

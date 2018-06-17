@@ -91,19 +91,22 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                         Id = c.Long(nullable: false, identity: true),
                         TalepReferansNo = c.Long(nullable: false),
                         VergiNo = c.Long(nullable: false),
-                        TcNoFirmaKullanici = c.Long(nullable: false),
+                        FirmaKullaniciId = c.Int(nullable: false),
                         KonuTalepAciklama = c.String(maxLength: 1000),
                         TalepTarih = c.DateTime(),
                         BolgeKodu = c.String(maxLength: 500),
                         CevapDurum = c.Boolean(nullable: false),
                         RefTalepKonuId = c.Int(nullable: false),
                         CevapDetayGumrukId = c.Int(),
+                        FirmaKullanici_Id = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.CevapDetayGumruk", t => t.CevapDetayGumrukId)
+                .ForeignKey("dbo.Kullanici", t => t.FirmaKullanici_Id)
                 .ForeignKey("dbo.RefTalepKonu", t => t.RefTalepKonuId, cascadeDelete: true)
                 .Index(t => t.RefTalepKonuId)
-                .Index(t => t.CevapDetayGumrukId);
+                .Index(t => t.CevapDetayGumrukId)
+                .Index(t => t.FirmaKullanici_Id);
             
             CreateTable(
                 "dbo.RefTalepKonu",
@@ -121,7 +124,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                         Id = c.Long(nullable: false, identity: true),
                         TalepReferansNo = c.Long(nullable: false),
                         VergiNo = c.Long(nullable: false),
-                        TcNoFirmaKullanici = c.Long(nullable: false),
+                        FirmaKullanici = c.String(),
                         KonuTalepBaslik = c.String(maxLength: 500),
                         KonuTalepAciklama = c.String(maxLength: 1000),
                         TalepTarih = c.DateTime(),
@@ -140,11 +143,13 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
         {
             DropForeignKey("dbo.TalepDetayFirmaLog", "CevapDetayGumrukId", "dbo.CevapDetayGumruk");
             DropForeignKey("dbo.TalepDetayFirma", "RefTalepKonuId", "dbo.RefTalepKonu");
+            DropForeignKey("dbo.TalepDetayFirma", "FirmaKullanici_Id", "dbo.Kullanici");
             DropForeignKey("dbo.TalepDetayFirma", "CevapDetayGumrukId", "dbo.CevapDetayGumruk");
             DropForeignKey("dbo.Kullanici", "RolId", "dbo.Rol");
             DropForeignKey("dbo.Firma", "BolgeKodu", "dbo.GumrukKod");
             DropForeignKey("dbo.CevapDetayGumruk", "RefTalepCevapId", "dbo.RefTalepCevap");
             DropIndex("dbo.TalepDetayFirmaLog", new[] { "CevapDetayGumrukId" });
+            DropIndex("dbo.TalepDetayFirma", new[] { "FirmaKullanici_Id" });
             DropIndex("dbo.TalepDetayFirma", new[] { "CevapDetayGumrukId" });
             DropIndex("dbo.TalepDetayFirma", new[] { "RefTalepKonuId" });
             DropIndex("dbo.Firma", new[] { "BolgeKodu" });

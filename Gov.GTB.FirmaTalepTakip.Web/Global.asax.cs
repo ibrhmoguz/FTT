@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -23,6 +24,16 @@ namespace Gov.GTB.FirmaTalepTakip.Web
                 m.CreateMap<FirmaViewModel, Firma>();
                 m.CreateMap<GumrukKod, GumrukKodViewModel>();
                 m.CreateMap<GumrukKodViewModel, GumrukKod>();
+                //m.CreateMap<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>()
+                //    .AfterMap((src, dest) =>
+                //    {
+                //        var siraNo = 1;
+                //        foreach (var talepDetayFirmaViewModel in dest)
+                //        {
+                //            talepDetayFirmaViewModel.SiraNo = siraNo++;
+                //        }
+                //    });
+                m.CreateMap<TalepDetayFirma, TalepDetayFirmaViewModel>();
             });
         }
 

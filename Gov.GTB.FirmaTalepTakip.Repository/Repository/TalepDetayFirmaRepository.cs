@@ -15,10 +15,14 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public IEnumerable<TalepDetayFirma> TalepListesi(long firmaVergiNo)
+        public IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo)
         {
-            var talepList = _dbContext.TalepDetayi.Where(firma => firma.VergiNo == firmaVergiNo);
-            return talepList.Any() ? talepList.ToList() : null;
+            var talepList = _dbContext.TalepDetayi
+                                      .Where(firma => firma.VergiNo ==
+                                      (_dbContext.FirmaKullanicilar
+                                                 .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
+                                      ).VergiNo);
+            return talepList.Any() ? talepList.ToList() : new List<TalepDetayFirma>();
         }
 
         public TalepDetayFirma TalepDetayGetir(long talepReferansNo)
@@ -35,7 +39,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                     if (talepDetay.TalepReferansNo != 0)
                     {
                         var talepDetayFromDb = this.TalepDetayGetir(talepDetay.TalepReferansNo);
-                        talepDetayFromDb.TcNoFirmaKullanici = talepDetay.TcNoFirmaKullanici;
+                        talepDetayFromDb.FirmaKullanici = talepDetay.FirmaKullanici;
                         talepDetayFromDb.RefTalepKonuId = talepDetay.RefTalepKonuId;
                         talepDetayFromDb.KonuTalepAciklama = talepDetay.KonuTalepAciklama;
                         talepDetayFromDb.TalepTarih = talepDetay.TalepTarih;
@@ -67,7 +71,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                         KonuTalepBaslik = _dbContext.TalepKonulari.FirstOrDefault(konu => konu.Id == talepDetay.RefTalepKonuId)?.TKonu,
                         TalepReferansNo = talepDetay.TalepReferansNo,
                         TalepTarih = talepDetay.TalepTarih,
-                        TcNoFirmaKullanici = talepDetay.TcNoFirmaKullanici,
+                        FirmaKullanici = talepDetay.FirmaKullanici.TcNo + "-" + talepDetay.FirmaKullanici.Adi + " " + talepDetay.FirmaKullanici.Soyadi,
                         VergiNo = talepDetay.VergiNo,
                         CevapDetayGumrukId = talepDetay.CevapDetayGumrukId,
                         IslemTarih = DateTime.Now

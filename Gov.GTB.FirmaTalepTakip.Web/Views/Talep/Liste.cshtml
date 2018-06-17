@@ -1,0 +1,65 @@
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.ViewModel.TalepDetayFirmaViewModel>
+@{
+    ViewBag.Title = "Talep Listesi";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-header">
+                @using (Html.BeginForm("Ara", "Talep", FormMethod.Get))
+                {
+                    <div class="input-group @FirmaHtmlHelper.ValidationClass("talepReferansNo", ViewData.ModelState)" style="width: 300px">
+                        <input type="number" name="talepReferansNo" class="form-control" placeholder="Talep Referans No Giriniz...">
+
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                }
+                @Html.ValidationMessage("talepReferansNo", "", new { @class = "text-danger" })
+                <div class="pull-right box-tools">
+                    @Html.ActionLink("Talep Ekle", "Ekle", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="tableFirmaListesi" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>SIRA NO</th>
+                            <th>TALEP REFERANS NO</th>
+                            <th>TALEP KONUSU</th>
+                            <th>TARİH</th>
+                            <th>TALEP YAPAN KİŞİ</th>
+                            <th>CEVAPLANMA DURUMU</th>
+                            <th style="width:10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.SiraNo</td>
+                                <td>@item.TalepReferansNo</td>
+                                <td>@item.RefTalepKonu.TKonu</td>
+                                <td>@item.TalepTarih</td>
+                                <td>@item.FirmaKullanici.Adi @item.FirmaKullanici.Soyadi</td>
+                                <td>  @(item.CevapDurum == true ? Html.Raw("CEVAPLANDI") : Html.Raw("CEVAPLANMADI"))</td>
+                                <td>
+                                    @if (item.CevapDurum != true)
+                                    {
+                                        @Html.ActionLink("Güncelle", "Duzenle", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

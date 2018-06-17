@@ -63,6 +63,7 @@
     <Compile Include="ViewModel\FirmaKullaniciViewModel.cs" />
     <Compile Include="ViewModel\KullaniciYetkileri.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\TalepDetayFirmaViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
