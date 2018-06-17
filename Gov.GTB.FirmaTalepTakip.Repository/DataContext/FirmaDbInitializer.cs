@@ -84,9 +84,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var talepDetayi = new List<TalepDetayFirma>
             {
-                new TalepDetayFirma { TalepReferansNo = "20180400011", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
-                new TalepDetayFirma {TalepReferansNo = "20180400012", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
-                new TalepDetayFirma {TalepReferansNo = "20180400013", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici="36725314789",KonuTalepBaslik="asd",TalepTarih=DateTime.Now},
+                new TalepDetayFirma { TalepReferansNo = "20180400011", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = false},
+                new TalepDetayFirma {TalepReferansNo = "20180400012", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = true},
+                new TalepDetayFirma {TalepReferansNo = "20180400013", VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = false},
 
             };
             talepDetayi.ForEach(z => context.TalepDetayi.Add(z));

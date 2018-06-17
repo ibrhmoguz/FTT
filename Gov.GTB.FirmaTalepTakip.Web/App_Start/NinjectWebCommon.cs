@@ -56,6 +56,9 @@ namespace Gov.GTB.FirmaTalepTakip.Web.App_Start
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IFirmaRepository>().To<FirmaRepository>();
             kernel.Bind<IGumrukKodRepository>().To<GumrukKodRepository>();
+            kernel.Bind<ITalepDetayFirmaRepository>().To<TalepDetayFirmaRepository>();
+            kernel.Bind<IRefTalepCevapRepository>().To<RefTalepCevapRepository>();
+            kernel.Bind<IRefTalepKonuRepository>().To<RefTalepKonuRepository>();
         }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="Entities\RefTalepKonu.cs" />
     <Compile Include="Entities\Rol.cs" />
     <Compile Include="Entities\GumrukKullanici.cs" />
+    <Compile Include="Entities\TalepDetayFirmaLog.cs" />
     <Compile Include="Entities\TalepDetayFirma.cs" />
     <Compile Include="Enums\RolEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

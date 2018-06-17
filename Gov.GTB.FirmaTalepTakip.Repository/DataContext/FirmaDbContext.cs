@@ -21,6 +21,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
         public virtual DbSet<RefTalepKonu> TalepKonulari { get; set; }
         public virtual DbSet<CevapDetayGumruk> CevapDetayi { get; set; }
         public virtual DbSet<TalepDetayFirma> TalepDetayi { get; set; }
+        public virtual DbSet<TalepDetayFirmaLog> TalepDetayiLog { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gov.GTB.FirmaTalepTakip.Model.Entities
 {
-    public class TalepDetayFirma
+    public class TalepDetayFirmaLog
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
