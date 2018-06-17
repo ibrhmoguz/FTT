@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
@@ -18,16 +19,33 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
         public IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo)
         {
             var talepList = _dbContext.TalepDetayi
-                                      .Where(firma => firma.VergiNo ==
-                                      (_dbContext.FirmaKullanicilar
-                                                 .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
-                                      ).VergiNo);
+                .Include(t => t.RefTalepKonu)
+                .Include(t => t.CevapDetayGumruk)
+                .Include(t => t.FirmaKullanici)
+                .Where(firma => firma.VergiNo ==
+                                (_dbContext.FirmaKullanicilar
+                                    .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
+                                ).VergiNo);
+
             return talepList.Any() ? talepList.ToList() : new List<TalepDetayFirma>();
         }
 
-        public TalepDetayFirma TalepDetayGetir(long talepReferansNo)
+        public TalepDetayFirma TalepDetayGetir(long talepId)
         {
-            return _dbContext.TalepDetayi.FirstOrDefault(f => f.TalepReferansNo == talepReferansNo);
+            return _dbContext.TalepDetayi
+                .Include(t => t.RefTalepKonu)
+                .Include(t => t.CevapDetayGumruk)
+                .Include(t => t.FirmaKullanici)
+                .FirstOrDefault(f => f.Id == talepId);
+        }
+
+        public TalepDetayFirma TalepDetayGetirReferansNoIle(long talepReferansNo)
+        {
+            return _dbContext.TalepDetayi
+                .Include(t => t.RefTalepKonu)
+                .Include(t => t.CevapDetayGumruk)
+                .Include(t => t.FirmaKullanici)
+                .FirstOrDefault(f => f.TalepReferansNo == talepReferansNo);
         }
 
         public bool TalepKaydetGuncelle(TalepDetayFirma talepDetay)
@@ -36,10 +54,13 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             {
                 try
                 {
+                    var firma = _dbContext.Firmalar.FirstOrDefault(f => f.VergiNo == talepDetay.VergiNo);
+                    talepDetay.BolgeKodu = firma?.BolgeKodu;
+
                     if (talepDetay.TalepReferansNo != 0)
                     {
-                        var talepDetayFromDb = this.TalepDetayGetir(talepDetay.TalepReferansNo);
-                        talepDetayFromDb.FirmaKullanici = talepDetay.FirmaKullanici;
+                        var talepDetayFromDb = this.TalepDetayGetirReferansNoIle(talepDetay.TalepReferansNo);
+                        talepDetayFromDb.FirmaKullaniciId = talepDetay.FirmaKullaniciId;
                         talepDetayFromDb.RefTalepKonuId = talepDetay.RefTalepKonuId;
                         talepDetayFromDb.KonuTalepAciklama = talepDetay.KonuTalepAciklama;
                         talepDetayFromDb.TalepTarih = talepDetay.TalepTarih;
@@ -50,7 +71,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                     }
                     else
                     {
-                        var maxTalepDetay = _dbContext.TalepDetayi.OrderByDescending(firma => firma.Id).FirstOrDefault();
+                        var maxTalepDetay = _dbContext.TalepDetayi.OrderByDescending(td => td.Id).FirstOrDefault();
                         if (maxTalepDetay == null || maxTalepDetay.TalepReferansNo.ToString().Substring(0, 6) != DateTime.Now.ToString("yyyyMM"))
                         {
                             talepDetay.TalepReferansNo = Convert.ToInt64(DateTime.Now.ToString("yyyyMM000001"));
@@ -62,6 +83,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                         _dbContext.TalepDetayi.Add(talepDetay);
                     }
 
+                    var firmaKullanici = _dbContext.FirmaKullanicilar.FirstOrDefault(fk => fk.Id == talepDetay.FirmaKullaniciId);
                     // Talep Detay Log
                     var talepDetayLog = new TalepDetayFirmaLog
                     {
@@ -71,7 +93,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                         KonuTalepBaslik = _dbContext.TalepKonulari.FirstOrDefault(konu => konu.Id == talepDetay.RefTalepKonuId)?.TKonu,
                         TalepReferansNo = talepDetay.TalepReferansNo,
                         TalepTarih = talepDetay.TalepTarih,
-                        FirmaKullanici = talepDetay.FirmaKullanici.TcNo + "-" + talepDetay.FirmaKullanici.Adi + " " + talepDetay.FirmaKullanici.Soyadi,
+                        FirmaKullanici = (firmaKullanici != null) ? firmaKullanici.TcNo + "-" + firmaKullanici.Adi + " " + firmaKullanici.Soyadi : null,
                         VergiNo = talepDetay.VergiNo,
                         CevapDetayGumrukId = talepDetay.CevapDetayGumrukId,
                         IslemTarih = DateTime.Now

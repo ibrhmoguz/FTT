@@ -13,7 +13,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201806171736314_Initial"; }
+            get { return "201806172114385_Initial"; }
         }
         
         string IMigrationMetadata.Source

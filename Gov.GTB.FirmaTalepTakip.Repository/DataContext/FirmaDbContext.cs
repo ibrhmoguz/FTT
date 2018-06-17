@@ -9,6 +9,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
         public FirmaDbContext()
             : base("FirmaDbConnectionString")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public virtual DbSet<Rol> Roller { get; set; }

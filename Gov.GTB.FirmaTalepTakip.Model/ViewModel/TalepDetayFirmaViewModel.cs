@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 
@@ -17,6 +18,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public int FirmaKullaniciId { get; set; }
         public virtual FirmaKullanici FirmaKullanici { get; set; }
 
+        [Required(ErrorMessage = "Talep açıklaması giriniz!")]
         public string KonuTalepAciklama { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -28,10 +30,18 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 
         public bool CevapDurum { get; set; }
 
+        [Required(ErrorMessage = "Talep konusu seçiniz!")]
         public int RefTalepKonuId { get; set; }
         public virtual RefTalepKonu RefTalepKonu { get; set; }
 
         public int? CevapDetayGumrukId { get; set; }
         public virtual CevapDetayGumruk CevapDetayGumruk { get; set; }
+
+        public IEnumerable<RefTalepKonu> Konular { get; set; }
+
+        public TalepDetayFirmaViewModel()
+        {
+            Konular = new List<RefTalepKonu>();
+        }
     }
 }

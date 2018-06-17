@@ -1,4 +1,5 @@
-﻿@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+﻿@using System.Diagnostics.Eventing.Reader
+@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
 @model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.ViewModel.TalepDetayFirmaViewModel>
 @{
     ViewBag.Title = "Talep Listesi";
@@ -53,6 +54,10 @@
                                     @if (item.CevapDurum != true)
                                     {
                                         @Html.ActionLink("Güncelle", "Duzenle", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Görüntüle", "Duzenle", new { item.Id }, new { @class = "btn btn-info btn-xs" })
                                     }
                                 </td>
                             </tr>

@@ -84,9 +84,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var talepDetayi = new List<TalepDetayFirma>
             {
-                new TalepDetayFirma {TalepReferansNo=201806000001, VergiNo=1111111111,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[0],RefTalepKonuId=1,TalepTarih=DateTime.Now,CevapDurum = false,CevapDetayGumruk = null},
-                new TalepDetayFirma {TalepReferansNo=201806000002, VergiNo=1111111111,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[1],RefTalepKonuId=2,TalepTarih=DateTime.Now,CevapDurum = true, CevapDetayGumruk = cevapDetayi[0]},
-                new TalepDetayFirma {TalepReferansNo=201806000003, VergiNo=1111111111,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[2],RefTalepKonuId=3,TalepTarih=DateTime.Now,CevapDurum = false, CevapDetayGumruk = null},
+                new TalepDetayFirma {TalepReferansNo=201806000001, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[0],RefTalepKonuId=1,TalepTarih=DateTime.Now,CevapDurum = false,CevapDetayGumruk = null},
+                new TalepDetayFirma {TalepReferansNo=201806000002, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[1],RefTalepKonuId=2,TalepTarih=DateTime.Now,CevapDurum = true, CevapDetayGumruk = cevapDetayi[0]},
+                new TalepDetayFirma {TalepReferansNo=201806000003, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[2],RefTalepKonuId=3,TalepTarih=DateTime.Now,CevapDurum = false, CevapDetayGumruk = null},
 
             };
             talepDetayi.ForEach(z => context.TalepDetayi.Add(z));

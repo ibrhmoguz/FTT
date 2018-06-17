@@ -14,7 +14,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
 
         public long VergiNo { get; set; }
 
-        public int FirmaKullaniciId { get; set; }
+        public long FirmaKullaniciId { get; set; }
         public virtual FirmaKullanici FirmaKullanici { get; set; }
 
         [MaxLength(1000)]

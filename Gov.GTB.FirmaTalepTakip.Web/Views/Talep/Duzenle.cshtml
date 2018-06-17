@@ -1,7 +1,48 @@
-﻿
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Helpers
+@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.TalepDetayFirmaViewModel
 @{
-    ViewBag.Title = "Duzenle";
+    ViewBag.Title = (Model.Id > 0) ? "Talep Bilgileri" : "Yeni Talep";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+@{
+    var konuListesi = new List<SelectListItem>();
+    if (Model.Konular != null)
+    {
+        Model.Konular.ToList().ForEach(g => konuListesi.Add(
+            new SelectListItem()
+            {
+                Text = g.TKonu,
+                Value = g.Id.ToString()
+            }));
+    }
+}
 
+
+@using (Html.BeginForm("Duzenle", "Talep", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.TalepReferansNo)
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("RefTalepKonuId", ViewData.ModelState)">
+                        <label>Talep Konusu</label>
+                        @Html.DropDownListFor(m => m.RefTalepKonuId, konuListesi, Resources.SelectInfoMsg, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RefTalepKonuId, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("KonuTalepAciklama", ViewData.ModelState)">
+                        <label>Açıklama</label>
+                        @Html.TextAreaFor(m => m.KonuTalepAciklama, 5, 20, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.KonuTalepAciklama, "", new { @class = "help-block" })
+                    </div>
+                    <div class="box-footer text-center">
+                        <button type="submit" class="btn btn-primary">Talebi Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

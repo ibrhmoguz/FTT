@@ -17,10 +17,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     public class TalepController : Controller
     {
         private readonly ITalepDetayFirmaRepository _talepDetayFirmaRepository;
+        private readonly IRefTalepKonuRepository _refTalepKonuRepository;
 
-        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository)
+        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository, IRefTalepKonuRepository refTalepKonuRepository)
         {
             _talepDetayFirmaRepository = talepDetayFirmaRepository;
+            _refTalepKonuRepository = refTalepKonuRepository;
         }
 
         public ActionResult Liste()
@@ -38,14 +40,18 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
         public ActionResult Ekle()
         {
-            var firmaViewModel = new TalepDetayFirmaViewModel();
-            return View("Duzenle", firmaViewModel);
+            var talepViewModel = new TalepDetayFirmaViewModel()
+            {
+                Konular = _refTalepKonuRepository.TalepKonuListesi()
+            };
+            return View("Duzenle", talepViewModel);
         }
 
         public ActionResult Duzenle(int id)
         {
             var talepFromDb = _talepDetayFirmaRepository.TalepDetayGetir(id);
             var talepViewModel = Mapper.Map<TalepDetayFirma, TalepDetayFirmaViewModel>(talepFromDb);
+            talepViewModel.Konular = _refTalepKonuRepository.TalepKonuListesi();
             return View(talepViewModel);
         }
 
@@ -70,6 +76,30 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
             var filteredTalepler = talepViewModel.Where(z => z.TalepReferansNo == talepReferansNoParam);
             return View("Liste", filteredTalepler);
+        }
+
+        [HttpPost]
+        public ActionResult Duzenle(TalepDetayFirmaViewModel talepDetayFirmaViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var talep = Mapper.Map<TalepDetayFirmaViewModel, TalepDetayFirma>(talepDetayFirmaViewModel);
+                var firmaKullanici = (FirmaKullanici)Session["CurrentFirmaKullanici"];
+                talep.VergiNo = firmaKullanici.VergiNo;
+                talep.FirmaKullaniciId = firmaKullanici.Id;
+                talep.TalepTarih = DateTime.Now;
+                talep.CevapDurum = false;
+                _talepDetayFirmaRepository.TalepKaydetGuncelle(talep);
+                return RedirectToAction("Liste");
+            }
+            else
+            {
+                var talepViewModel = new TalepDetayFirmaViewModel()
+                {
+                    Konular = _refTalepKonuRepository.TalepKonuListesi()
+                };
+                return View("Duzenle", talepViewModel);
+            }
         }
     }
 }

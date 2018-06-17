@@ -7,6 +7,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
     {
         IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo);
         TalepDetayFirma TalepDetayGetir(long talepId);
+        TalepDetayFirma TalepDetayGetirReferansNoIle(long talepReferansNo);
         bool TalepKaydetGuncelle(TalepDetayFirma talep);
     }
 }
