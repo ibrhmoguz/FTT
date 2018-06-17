@@ -10,23 +10,16 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-
         public string TcNoIrtibatPersoneli { get; set; }
 
-        [MaxLength(500)]
-        public string CevapBaslik { get; set; }
+        public int RefTalepCevapId { get; set; }
+        public virtual RefTalepCevap RefTalepCevap { get; set; }
 
         [MaxLength(1000)]
         public string CevapAciklama { get; set; }
 
-
         [DataType(DataType.DateTime)]
-        // [Column(TypeName = "datetime2")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? CevapTarih { get; set; }
-
-        public long TalepReferansNumarasi { get; set; }
-
-        public virtual TalepDetayFirma TalepReferansNo { get; set; }
     }
 }

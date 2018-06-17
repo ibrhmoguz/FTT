@@ -36,16 +36,20 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                     {
                         var talepDetayFromDb = this.TalepDetayGetir(talepDetay.TalepReferansNo);
                         talepDetayFromDb.TcNoFirmaKullanici = talepDetay.TcNoFirmaKullanici;
-                        talepDetayFromDb.KonuTalepBaslik = talepDetay.KonuTalepBaslik;
+                        talepDetayFromDb.RefTalepKonuId = talepDetay.RefTalepKonuId;
                         talepDetayFromDb.KonuTalepAciklama = talepDetay.KonuTalepAciklama;
                         talepDetayFromDb.TalepTarih = talepDetay.TalepTarih;
+                        talepDetayFromDb.CevapDetayGumrukId = talepDetay.CevapDetayGumrukId;
+                        talepDetayFromDb.VergiNo = talepDetay.VergiNo;
+                        talepDetayFromDb.BolgeKodu = talepDetay.BolgeKodu;
+                        talepDetayFromDb.CevapDurum = talepDetay.CevapDurum;
                     }
                     else
                     {
-                        var maxTalepDetay = _dbContext.TalepDetayi.OrderByDescending(firma => firma.TalepReferansNo).FirstOrDefault();
-                        if (maxTalepDetay == null)
+                        var maxTalepDetay = _dbContext.TalepDetayi.OrderByDescending(firma => firma.Id).FirstOrDefault();
+                        if (maxTalepDetay == null || maxTalepDetay.TalepReferansNo.ToString().Substring(0, 6) != DateTime.Now.ToString("yyyyMM"))
                         {
-                            talepDetay.TalepReferansNo = Convert.ToInt64(DateTime.Now.ToString("yyyyMM00001"));
+                            talepDetay.TalepReferansNo = Convert.ToInt64(DateTime.Now.ToString("yyyyMM000001"));
                         }
                         else
                         {
@@ -60,11 +64,13 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                         BolgeKodu = talepDetay.BolgeKodu,
                         CevapDurum = talepDetay.CevapDurum,
                         KonuTalepAciklama = talepDetay.KonuTalepAciklama,
-                        KonuTalepBaslik = talepDetay.KonuTalepBaslik,
+                        KonuTalepBaslik = _dbContext.TalepKonulari.FirstOrDefault(konu => konu.Id == talepDetay.RefTalepKonuId)?.TKonu,
                         TalepReferansNo = talepDetay.TalepReferansNo,
                         TalepTarih = talepDetay.TalepTarih,
                         TcNoFirmaKullanici = talepDetay.TcNoFirmaKullanici,
-                        VergiNo = talepDetay.VergiNo
+                        VergiNo = talepDetay.VergiNo,
+                        CevapDetayGumrukId = talepDetay.CevapDetayGumrukId,
+                        IslemTarih = DateTime.Now
                     };
                     _dbContext.TalepDetayiLog.Add(talepDetayLog);
 

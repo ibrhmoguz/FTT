@@ -13,30 +13,13 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         TcNoIrtibatPersoneli = c.String(),
-                        CevapBaslik = c.String(maxLength: 500),
+                        RefTalepCevapId = c.Int(nullable: false),
                         CevapAciklama = c.String(maxLength: 1000),
                         CevapTarih = c.DateTime(),
-                        TalepReferansNumarasi = c.Long(nullable: false),
-                        TalepReferansNo_TalepReferansNo = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.TalepDetayFirma", t => t.TalepReferansNo_TalepReferansNo)
-                .Index(t => t.TalepReferansNo_TalepReferansNo);
-            
-            CreateTable(
-                "dbo.TalepDetayFirma",
-                c => new
-                    {
-                        TalepReferansNo = c.Long(nullable: false, identity: true),
-                        VergiNo = c.Long(nullable: false),
-                        TcNoFirmaKullanici = c.Long(nullable: false),
-                        KonuTalepBaslik = c.String(maxLength: 500),
-                        KonuTalepAciklama = c.String(maxLength: 1000),
-                        TalepTarih = c.DateTime(),
-                        BolgeKodu = c.String(maxLength: 500),
-                        CevapDurum = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.TalepReferansNo);
+                .ForeignKey("dbo.RefTalepCevap", t => t.RefTalepCevapId, cascadeDelete: true)
+                .Index(t => t.RefTalepCevapId);
             
             CreateTable(
                 "dbo.RefTalepCevap",
@@ -102,6 +85,36 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                 .PrimaryKey(t => t.BolgeKodu);
             
             CreateTable(
+                "dbo.TalepDetayFirma",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        TalepReferansNo = c.Long(nullable: false),
+                        VergiNo = c.Long(nullable: false),
+                        TcNoFirmaKullanici = c.Long(nullable: false),
+                        KonuTalepAciklama = c.String(maxLength: 1000),
+                        TalepTarih = c.DateTime(),
+                        BolgeKodu = c.String(maxLength: 500),
+                        CevapDurum = c.Boolean(nullable: false),
+                        RefTalepKonuId = c.Int(nullable: false),
+                        CevapDetayGumrukId = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.CevapDetayGumruk", t => t.CevapDetayGumrukId)
+                .ForeignKey("dbo.RefTalepKonu", t => t.RefTalepKonuId, cascadeDelete: true)
+                .Index(t => t.RefTalepKonuId)
+                .Index(t => t.CevapDetayGumrukId);
+            
+            CreateTable(
+                "dbo.RefTalepKonu",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TKonu = c.String(nullable: false, maxLength: 500),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.TalepDetayFirmaLog",
                 c => new
                     {
@@ -114,36 +127,37 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                         TalepTarih = c.DateTime(),
                         BolgeKodu = c.String(maxLength: 500),
                         CevapDurum = c.Boolean(nullable: false),
+                        IslemTarih = c.DateTime(nullable: false),
+                        CevapDetayGumrukId = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.RefTalepKonu",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        TKonu = c.String(nullable: false, maxLength: 500),
-                    })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.CevapDetayGumruk", t => t.CevapDetayGumrukId)
+                .Index(t => t.CevapDetayGumrukId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.TalepDetayFirmaLog", "CevapDetayGumrukId", "dbo.CevapDetayGumruk");
+            DropForeignKey("dbo.TalepDetayFirma", "RefTalepKonuId", "dbo.RefTalepKonu");
+            DropForeignKey("dbo.TalepDetayFirma", "CevapDetayGumrukId", "dbo.CevapDetayGumruk");
             DropForeignKey("dbo.Kullanici", "RolId", "dbo.Rol");
             DropForeignKey("dbo.Firma", "BolgeKodu", "dbo.GumrukKod");
-            DropForeignKey("dbo.CevapDetayGumruk", "TalepReferansNo_TalepReferansNo", "dbo.TalepDetayFirma");
+            DropForeignKey("dbo.CevapDetayGumruk", "RefTalepCevapId", "dbo.RefTalepCevap");
+            DropIndex("dbo.TalepDetayFirmaLog", new[] { "CevapDetayGumrukId" });
+            DropIndex("dbo.TalepDetayFirma", new[] { "CevapDetayGumrukId" });
+            DropIndex("dbo.TalepDetayFirma", new[] { "RefTalepKonuId" });
             DropIndex("dbo.Firma", new[] { "BolgeKodu" });
             DropIndex("dbo.Kullanici", new[] { "RolId" });
-            DropIndex("dbo.CevapDetayGumruk", new[] { "TalepReferansNo_TalepReferansNo" });
-            DropTable("dbo.RefTalepKonu");
+            DropIndex("dbo.CevapDetayGumruk", new[] { "RefTalepCevapId" });
             DropTable("dbo.TalepDetayFirmaLog");
+            DropTable("dbo.RefTalepKonu");
+            DropTable("dbo.TalepDetayFirma");
             DropTable("dbo.GumrukKod");
             DropTable("dbo.Firma");
             DropTable("dbo.Rol");
             DropTable("dbo.Kullanici");
             DropTable("dbo.RefTalepCevap");
-            DropTable("dbo.TalepDetayFirma");
             DropTable("dbo.CevapDetayGumruk");
         }
     }

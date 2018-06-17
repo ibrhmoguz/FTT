@@ -54,7 +54,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var cevapKonulari = new List<RefTalepCevap>
             {
-                new RefTalepCevap { CKonu = "Talep, Bakanlık Merkez teşkilatına iletildi."},
+                new RefTalepCevap {CKonu = "Talep, Bakanlık Merkez teşkilatına iletildi."},
                 new RefTalepCevap {CKonu = "Talep, ilgili gümrük müdürlükleri nezdinde incelenmektedir."},
                 new RefTalepCevap {CKonu = "Talep hakkında ilgili gümrük idarelerine gerekli talimat verildi"}
 
@@ -64,7 +64,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var talepKonulari = new List<RefTalepKonu>
             {
-                new RefTalepKonu { TKonu = "Tarife,Menşe,Kıymet"},
+                new RefTalepKonu {TKonu = "Tarife,Menşe,Kıymet"},
                 new RefTalepKonu {TKonu = "İthalat"},
                 new RefTalepKonu {TKonu = "İhracat"}
 
@@ -74,9 +74,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var cevapDetayi = new List<CevapDetayGumruk>
             {
-                new CevapDetayGumruk { TcNoIrtibatPersoneli = "36725314789", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi=20180400011},
-                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314784", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi=20180400011},
-                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314782", CevapBaslik="..",CevapAciklama="asd",TalepReferansNumarasi=20180400011}
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314789", RefTalepCevap = cevapKonulari[0],CevapAciklama="asd"},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314784", RefTalepCevap = cevapKonulari[1],CevapAciklama="asd"},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314782", RefTalepCevap = cevapKonulari[2],CevapAciklama="asd"}
 
             };
             cevapDetayi.ForEach(d => context.CevapDetayi.Add(d));
@@ -84,9 +84,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var talepDetayi = new List<TalepDetayFirma>
             {
-                new TalepDetayFirma {TalepReferansNo = 20180400011, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = false},
-                new TalepDetayFirma {TalepReferansNo = 20180400012, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = true},
-                new TalepDetayFirma {TalepReferansNo = 20180400013, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,KonuTalepBaslik="asd",TalepTarih=DateTime.Now, CevapDurum = false},
+                new TalepDetayFirma {TalepReferansNo=201806000001, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,RefTalepKonuId=1,TalepTarih=DateTime.Now,CevapDurum = false,CevapDetayGumruk = null},
+                new TalepDetayFirma {TalepReferansNo=201806000002, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,RefTalepKonuId=2,TalepTarih=DateTime.Now,CevapDurum = true, CevapDetayGumruk = cevapDetayi[0]},
+                new TalepDetayFirma {TalepReferansNo=201806000003, VergiNo=1111111111,BolgeKodu="010005",TcNoFirmaKullanici=36725314789,RefTalepKonuId=3,TalepTarih=DateTime.Now,CevapDurum = false, CevapDetayGumruk = null},
 
             };
             talepDetayi.ForEach(z => context.TalepDetayi.Add(z));

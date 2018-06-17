@@ -30,5 +30,10 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
         public string BolgeKodu { get; set; }
 
         public bool CevapDurum { get; set; }
+
+        public DateTime IslemTarih { get; set; }
+
+        public int? CevapDetayGumrukId { get; set; }
+        public virtual CevapDetayGumruk CevapDetayGumruk { get; set; }
     }
 }
