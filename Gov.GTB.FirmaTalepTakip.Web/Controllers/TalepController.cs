@@ -19,24 +19,30 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     {
         private readonly ITalepDetayFirmaRepository _talepDetayFirmaRepository;
         private readonly IRefTalepKonuRepository _refTalepKonuRepository;
-        public readonly CevapRepository _cevapRepository;
+        public readonly ICevapRepository _cevapRepository;
+        private readonly IRefTalepCevapRepository _refTalepCevapRepository;
 
-        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository, IRefTalepKonuRepository refTalepKonuRepository, CevapRepository cevapRepository)
+        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository,
+            IRefTalepKonuRepository refTalepKonuRepository, ICevapRepository cevapRepository,
+            IRefTalepCevapRepository refTalepCevapRepository)
         {
             _talepDetayFirmaRepository = talepDetayFirmaRepository;
             _refTalepKonuRepository = refTalepKonuRepository;
             _cevapRepository = cevapRepository;
+            _refTalepCevapRepository = refTalepCevapRepository;
         }
 
         public ActionResult Liste()
         {
             var talepler = TalepleriGetir();
-            var talepViewModel = Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
+            var talepViewModel =
+                Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
             var siraNo = 1;
             foreach (var talepDetayFirmaViewModel in talepViewModel)
             {
                 talepDetayFirmaViewModel.SiraNo = siraNo++;
             }
+
             return View(talepViewModel);
         }
 
@@ -74,7 +80,8 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         public ActionResult Ara(string talepReferansNo)
         {
             var talepler = TalepleriGetir();
-            var talepViewModel = Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
+            var talepViewModel =
+                Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
 
             if (string.IsNullOrEmpty(talepReferansNo))
             {
@@ -124,6 +131,36 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             var talep = _talepDetayFirmaRepository.TalepDetayGetir(id);
             cevapViewModel.TalepReferansNo = talep.TalepReferansNo;
             return View(cevapViewModel);
+        }
+
+        public ActionResult Cevapla(long id)
+        {
+            var talepFromDb = _talepDetayFirmaRepository.TalepDetayGetir(id);
+            var cevapViewModel = new CevapViewModel
+            {
+                TalepReferansNo = talepFromDb.TalepReferansNo,
+                TalepKonu = talepFromDb.RefTalepKonu.TKonu,
+                TalepAciklama = talepFromDb.KonuTalepAciklama,
+                CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
+            };
+            return View("Cevapla", cevapViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Cevapla(CevapViewModel cevapViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Liste");
+            }
+            else
+            {
+                var talepCevapViewModel = new CevapViewModel
+                {
+                    CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
+                };
+                return View("Cevapla", talepCevapViewModel);
+            }
         }
     }
 }
