@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
+using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
 
@@ -122,6 +123,58 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                     return false;
                 }
             }
+        }
+
+        public bool TalepCevapla(CevapViewModel talepCevap)
+        {
+            if (!talepCevap.CevapDetayGumrukId.HasValue)
+            {
+                using (var dbTransaction = _dbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var cevap = new CevapDetayGumruk
+                        {
+                            CevapAciklama = talepCevap.CevapAciklama,
+                            CevapTarih = DateTime.Now,
+                            RefTalepCevapId = talepCevap.RefTalepCevapId,
+                            TcNoIrtibatPersoneli = talepCevap.TcNoIrtibatPersoneli
+                        };
+                        _dbContext.CevapDetayi.Add(cevap);
+                        _dbContext.SaveChanges();
+
+                        var talep = _dbContext.TalepDetayi.FirstOrDefault(td => td.TalepReferansNo == talepCevap.TalepReferansNo);
+                        if (talep != null)
+                        {
+                            talep.CevapDetayGumrukId = cevap.Id;
+                            talep.CevapDurum = true;
+                        }
+
+                        _dbContext.SaveChanges();
+                        dbTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        dbTransaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                var cevap = _dbContext.CevapDetayi.FirstOrDefault(cd => cd.Id == talepCevap.CevapDetayGumrukId.Value);
+                if (cevap != null)
+                {
+                    cevap.CevapAciklama = talepCevap.CevapAciklama;
+                    cevap.CevapTarih = DateTime.Now;
+                    cevap.RefTalepCevapId = talepCevap.RefTalepCevapId;
+                    cevap.TcNoIrtibatPersoneli = talepCevap.TcNoIrtibatPersoneli;
+
+                    _dbContext.SaveChanges();
+                }
+            }
+
+            return true;
         }
     }
 }

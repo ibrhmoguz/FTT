@@ -28,6 +28,11 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 
         public IEnumerable<RefTalepCevap> CevapBasliklar { get; set; }
 
+        public int? CevapDetayGumrukId { get; set; }
+
+        [MaxLength(11)]
+        public string TcNoIrtibatPersoneli { get; set; }
+
         public CevapViewModel()
         {
             CevapBasliklar = new List<RefTalepCevap>();

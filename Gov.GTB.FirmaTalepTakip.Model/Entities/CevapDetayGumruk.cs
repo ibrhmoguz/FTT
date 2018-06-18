@@ -10,6 +10,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [MaxLength(11)]
         public string TcNoIrtibatPersoneli { get; set; }
 
         public int RefTalepCevapId { get; set; }

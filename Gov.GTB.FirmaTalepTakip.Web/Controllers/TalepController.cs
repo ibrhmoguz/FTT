@@ -136,13 +136,20 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         public ActionResult Cevapla(long id)
         {
             var talepFromDb = _talepDetayFirmaRepository.TalepDetayGetir(id);
+            var cevap = _cevapRepository.TalepCevabiGetir(id);
+
             var cevapViewModel = new CevapViewModel
             {
                 TalepReferansNo = talepFromDb.TalepReferansNo,
                 TalepKonu = talepFromDb.RefTalepKonu.TKonu,
                 TalepAciklama = talepFromDb.KonuTalepAciklama,
-                CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
+                CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi(),
+                CevapDetayGumrukId = talepFromDb.CevapDetayGumrukId,
+                TcNoIrtibatPersoneli = Session["CurrentUserTcNo"].ToString(),
+                CevapAciklama = cevap.CevapAciklama,
+                RefTalepCevapId = cevap.RefTalepCevapId
             };
+
             return View("Cevapla", cevapViewModel);
         }
 
@@ -151,16 +158,20 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Liste");
+                var result = _talepDetayFirmaRepository.TalepCevapla(cevapViewModel);
+                if (result)
+                    return RedirectToAction("Liste");
             }
-            else
+            return RedirectToCevapla();
+        }
+
+        private ActionResult RedirectToCevapla()
+        {
+            var talepCevapViewModel = new CevapViewModel
             {
-                var talepCevapViewModel = new CevapViewModel
-                {
-                    CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
-                };
-                return View("Cevapla", talepCevapViewModel);
-            }
+                CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
+            };
+            return View("Cevapla", talepCevapViewModel);
         }
     }
 }

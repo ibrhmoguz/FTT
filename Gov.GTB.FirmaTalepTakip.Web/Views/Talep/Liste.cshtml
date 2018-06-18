@@ -28,9 +28,6 @@
                     </div>
                 }
                 @Html.ValidationMessage("talepReferansNo", "", new { @class = "text-danger" })
-                <div class="pull-right box-tools">
-                    @Html.ActionLink("Talep Ekle", "Ekle", null, new { @class = "btn btn-success" })
-                </div>
             </div>
             <div class="box-body">
                 <table id="tableFirmaListesi" class="table table-bordered table-hover">
@@ -75,7 +72,7 @@
                                         }
                                         else if (kullaniciRol.KullaniciRolEnum == RolEnum.BIP)
                                         {
-                                            @Html.ActionLink("Güncelle", "CevapGuncelle", new { item.Id }, new { @class = "btn btn-warning btn-xs" })
+                                            @Html.ActionLink("Güncelle", "Cevapla", new { item.Id }, new { @class = "btn btn-warning btn-xs" })
                                             @Html.ActionLink("Görüntüle", "Cevap", new { item.Id }, new { @class = "btn btn-info btn-xs" })
                                         }
                                     }

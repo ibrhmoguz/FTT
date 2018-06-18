@@ -3,7 +3,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        TcNoIrtibatPersoneli = c.String(),
+                        TcNoIrtibatPersoneli = c.String(maxLength: 11),
                         RefTalepCevapId = c.Int(nullable: false),
                         CevapAciklama = c.String(maxLength: 1000),
                         CevapTarih = c.DateTime(),
@@ -67,7 +67,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                     {
                         FirmaId = c.Int(nullable: false, identity: true),
                         VergiNo = c.Long(nullable: false),
-                        TcNoIrtibatPersoneli = c.String(),
+                        TcNoIrtibatPersoneli = c.String(maxLength: 11),
                         Adi = c.String(nullable: false, maxLength: 500),
                         BolgeKodu = c.String(nullable: false, maxLength: 50),
                     })

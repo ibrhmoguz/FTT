@@ -11,6 +11,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
 
         public long VergiNo { get; set; }
 
+        [MaxLength(11)]
         public string TcNoIrtibatPersoneli { get; set; }
 
         [MaxLength(500)]

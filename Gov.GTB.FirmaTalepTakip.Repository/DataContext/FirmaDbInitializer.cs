@@ -102,9 +102,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var cevapDetayi = new List<CevapDetayGumruk>
             {
-                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314789", RefTalepCevap = cevapKonulari[0],CevapAciklama="asd"},
-                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314784", RefTalepCevap = cevapKonulari[1],CevapAciklama="asd"},
-                new CevapDetayGumruk {TcNoIrtibatPersoneli = "36725314782", RefTalepCevap = cevapKonulari[2],CevapAciklama="asd"}
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = gumrukKullanicilar[0].TcNo.ToString(), RefTalepCevap = cevapKonulari[0],CevapAciklama="asd", CevapTarih = DateTime.Now},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = gumrukKullanicilar[1].TcNo.ToString(), RefTalepCevap = cevapKonulari[1],CevapAciklama="asd"},
+                new CevapDetayGumruk {TcNoIrtibatPersoneli = gumrukKullanicilar[2].TcNo.ToString(), RefTalepCevap = cevapKonulari[2],CevapAciklama="asd"}
 
             };
             cevapDetayi.ForEach(d => context.CevapDetayi.Add(d));

@@ -22,6 +22,8 @@
 
 @using (Html.BeginForm("Cevapla", "Talep", FormMethod.Post))
 {
+    @Html.HiddenFor(model => model.CevapDetayGumrukId)
+    @Html.HiddenFor(model => model.TcNoIrtibatPersoneli)
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
@@ -49,7 +51,7 @@
                         @Html.ValidationMessageFor(m => m.CevapAciklama, "", new { @class = "help-block" })
                     </div>
                     <div class="box-footer text-center">
-                        <button type="submit" class="btn btn-primary">Talebi Cevapla</button>
+                        <button type="submit" class="btn btn-primary">@(Model.CevapDetayGumrukId.HasValue ? Html.Raw("Talebi Güncelle") : Html.Raw("Talebi Cevapla"))</button>
                     </div>
                 </div>
             </div>
