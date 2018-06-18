@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
@@ -16,12 +17,12 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
 
         public IEnumerable<Firma> FirmaListesi()
         {
-            return _dbContext.Firmalar.ToList();
+            return _dbContext.Firmalar.Include(firma => firma.BolgeKod).ToList();
         }
 
         public Firma FirmaGetir(int firmaId)
         {
-            return _dbContext.Firmalar.FirstOrDefault(f => f.FirmaId == firmaId);
+            return _dbContext.Firmalar.Include(firma => firma.BolgeKod).FirstOrDefault(f => f.FirmaId == firmaId);
         }
 
         public bool FirmaKaydetGuncelle(Firma firma)
