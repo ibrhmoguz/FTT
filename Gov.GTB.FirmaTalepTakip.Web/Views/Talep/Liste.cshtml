@@ -1,9 +1,14 @@
-﻿@using System.Diagnostics.Eventing.Reader
+﻿@using Gov.GTB.FirmaTalepTakip.Model.Enums
+@using Gov.GTB.FirmaTalepTakip.Model.ViewModel
 @using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
 @model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.ViewModel.TalepDetayFirmaViewModel>
 @{
     ViewBag.Title = "Talep Listesi";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@{
+    var kullaniciRol = (KullaniciYetkileri)Session["CurrentUser_Auths"];
 }
 
 <div class="row">
@@ -37,7 +42,7 @@
                             <th>TARİH</th>
                             <th>TALEP YAPAN KİŞİ</th>
                             <th>CEVAPLANMA DURUMU</th>
-                            <th style="width:10%"></th>
+                            <th style="width:15%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,15 +54,30 @@
                                 <td>@item.RefTalepKonu.TKonu</td>
                                 <td>@item.TalepTarih</td>
                                 <td>@item.FirmaKullanici.Adi @item.FirmaKullanici.Soyadi</td>
-                                <td>  @(item.CevapDurum == true ? Html.Raw("CEVAPLANDI") : Html.Raw("CEVAPLANMADI"))</td>
+                                <td>@(item.CevapDurum ? Html.Raw("CEVAPLANDI") : Html.Raw("CEVAPLANMADI"))</td>
                                 <td>
                                     @if (item.CevapDurum != true)
                                     {
-                                        @Html.ActionLink("Güncelle", "Duzenle", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                        if (kullaniciRol.KullaniciRolEnum == RolEnum.FIP)
+                                        {
+                                            @Html.ActionLink("Güncelle", "Duzenle", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                        }
+                                        else if (kullaniciRol.KullaniciRolEnum == RolEnum.BIP)
+                                        {
+                                            @Html.ActionLink("Cevapla", "Cevapla", new { item.Id }, new { @class = "btn btn-primary btn-xs" })
+                                        }
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("Görüntüle", "Cevap", new { item.Id }, new { @class = "btn btn-info btn-xs" })
+                                        if (kullaniciRol.KullaniciRolEnum == RolEnum.FIP)
+                                        {
+                                            @Html.ActionLink("Görüntüle", "Cevap", new { item.Id }, new { @class = "btn btn-info btn-xs" })
+                                        }
+                                        else if (kullaniciRol.KullaniciRolEnum == RolEnum.BIP)
+                                        {
+                                            @Html.ActionLink("Güncelle", "CevapGuncelle", new { item.Id }, new { @class = "btn btn-warning btn-xs" })
+                                            @Html.ActionLink("Görüntüle", "Cevap", new { item.Id }, new { @class = "btn btn-info btn-xs" })
+                                        }
                                     }
                                 </td>
                             </tr>

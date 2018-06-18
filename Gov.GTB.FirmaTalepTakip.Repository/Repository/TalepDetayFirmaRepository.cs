@@ -16,18 +16,30 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo)
+        public IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo, string bolgeKodu)
         {
-            var talepList = _dbContext.TalepDetayi
-                .Include(t => t.RefTalepKonu)
-                .Include(t => t.CevapDetayGumruk)
-                .Include(t => t.FirmaKullanici)
-                .Where(firma => firma.VergiNo ==
-                                (_dbContext.FirmaKullanicilar
-                                    .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
-                                ).VergiNo);
+            List<TalepDetayFirma> talepList;
+            if (!string.IsNullOrEmpty(bolgeKodu))
+            {
+                talepList = _dbContext.TalepDetayi
+                                       .Include(t => t.RefTalepKonu)
+                                       .Include(t => t.CevapDetayGumruk)
+                                       .Include(t => t.FirmaKullanici)
+                                       .Where(td => td.BolgeKodu == bolgeKodu).ToList();
+            }
+            else
+            {
+                talepList = _dbContext.TalepDetayi
+                                       .Include(t => t.RefTalepKonu)
+                                       .Include(t => t.CevapDetayGumruk)
+                                       .Include(t => t.FirmaKullanici)
+                                       .Where(firma => firma.VergiNo ==
+                                                       (_dbContext.FirmaKullanicilar
+                                                           .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
+                                                       ).VergiNo).ToList();
+            }
 
-            return talepList.Any() ? talepList.ToList() : new List<TalepDetayFirma>();
+            return talepList;
         }
 
         public TalepDetayFirma TalepDetayGetir(long talepId)

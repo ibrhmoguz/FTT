@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
+using Gov.GTB.FirmaTalepTakip.Model.Enums;
 using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
 using Gov.GTB.FirmaTalepTakip.Repository.Repository;
@@ -29,8 +30,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
         public ActionResult Liste()
         {
-            var currentUserTcNo = (long)Session["CurrentUserTcNo"];
-            var talepler = _talepDetayFirmaRepository.TalepListesi(currentUserTcNo);
+            var talepler = TalepleriGetir();
             var talepViewModel = Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
             var siraNo = 1;
             foreach (var talepDetayFirmaViewModel in talepViewModel)
@@ -38,6 +38,20 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                 talepDetayFirmaViewModel.SiraNo = siraNo++;
             }
             return View(talepViewModel);
+        }
+
+        private IEnumerable<TalepDetayFirma> TalepleriGetir()
+        {
+            var currentUserTcNo = (long)Session["CurrentUserTcNo"];
+            var kullaniciYetkileri = (KullaniciYetkileri)Session["CurrentUser_Auths"];
+            string bolgeKodu = null;
+            if (kullaniciYetkileri.KullaniciRolEnum == RolEnum.BIP)
+            {
+                var bipGumrukKullanici = (GumrukKullanici)Session["CurrentGumrukKullanici"];
+                bolgeKodu = bipGumrukKullanici.BolgeKodu;
+            }
+
+            return _talepDetayFirmaRepository.TalepListesi(currentUserTcNo, bolgeKodu);
         }
 
         public ActionResult Ekle()
@@ -59,8 +73,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
         public ActionResult Ara(string talepReferansNo)
         {
-            var currentUserTcNo = (long)Session["CurrentUserTcNo"];
-            var talepler = _talepDetayFirmaRepository.TalepListesi(currentUserTcNo);
+            var talepler = TalepleriGetir();
             var talepViewModel = Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
 
             if (string.IsNullOrEmpty(talepReferansNo))

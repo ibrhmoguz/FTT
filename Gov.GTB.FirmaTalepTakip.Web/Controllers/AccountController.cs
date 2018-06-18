@@ -57,6 +57,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                         Session["CurrentFirmaKullanici"] = firmaKullanici;
                     }
 
+                    var gumrukKullanici = _userRepository.GumrukKullanicilariGetir().FirstOrDefault(gk => gk.TcNo == kullanici.TcNo);
+                    if (gumrukKullanici != null)
+                    {
+                        Session["CurrentGumrukKullanici"] = gumrukKullanici;
+                    }
+
                     RolEnum kullaniciRol;
                     Enum.TryParse(kullanici.RolId.ToString(), out kullaniciRol);
                     Session["CurrentUser_Auths"] = new KullaniciYetkileri { KullaniciRolEnum = kullaniciRol };
