@@ -16,7 +16,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public long VergiNo { get; set; }
 
         public int FirmaKullaniciId { get; set; }
-        public virtual FirmaKullanici FirmaKullanici { get; set; }
+        public FirmaKullanici FirmaKullanici { get; set; }
 
         [Required(ErrorMessage = "Talep açıklaması giriniz!")]
         public string KonuTalepAciklama { get; set; }
@@ -35,7 +35,7 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public virtual RefTalepKonu RefTalepKonu { get; set; }
 
         public int? CevapDetayGumrukId { get; set; }
-        public virtual CevapDetayGumruk CevapDetayGumruk { get; set; }
+        public CevapDetayGumruk CevapDetayGumruk { get; set; }
 
         public IEnumerable<RefTalepKonu> Konular { get; set; }
 

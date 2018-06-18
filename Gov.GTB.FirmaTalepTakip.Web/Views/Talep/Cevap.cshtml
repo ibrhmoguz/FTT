@@ -1,0 +1,30 @@
+﻿@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.CevapViewModel
+@{
+    ViewBag.Title = "Talep Cevabı";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-body">
+                <div class="form-group">
+                    <label>Talep Referans No </label>
+                    @Html.TextBoxFor(m => m.TalepReferansNo, null, new { @class = "form-control", @readonly = true })
+                </div>
+                <div class="form-group">
+                    <label>Cevap Başlık </label>
+                    @Html.TextBoxFor(m => m.RefTalepCevap.CKonu, null, new { @class = "form-control", @readonly = true })
+                </div>
+                <div class="form-group">
+                    <label>Cevap Açıklama </label>
+                    @Html.TextAreaFor(m => m.CevapAciklama, 5, 20, new { @class = "form-control", @readonly = true })
+                </div>
+                <div class="form-group">
+                    <label>Cevaplanma Tarihi </label>
+                    @Html.TextBoxFor(m => m.CevapTarih, null, new { @class = "form-control", @readonly = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

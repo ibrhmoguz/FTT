@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
+using Gov.GTB.FirmaTalepTakip.Repository.Repository;
 using Gov.GTB.FirmaTalepTakip.Web.Helpers;
 using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete;
 
@@ -18,11 +18,13 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     {
         private readonly ITalepDetayFirmaRepository _talepDetayFirmaRepository;
         private readonly IRefTalepKonuRepository _refTalepKonuRepository;
+        public readonly CevapRepository _cevapRepository;
 
-        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository, IRefTalepKonuRepository refTalepKonuRepository)
+        public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository, IRefTalepKonuRepository refTalepKonuRepository, CevapRepository cevapRepository)
         {
             _talepDetayFirmaRepository = talepDetayFirmaRepository;
             _refTalepKonuRepository = refTalepKonuRepository;
+            _cevapRepository = cevapRepository;
         }
 
         public ActionResult Liste()
@@ -100,6 +102,15 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                 };
                 return View("Duzenle", talepViewModel);
             }
+        }
+
+        public ActionResult Cevap(long id)
+        {
+            var cevapTalep = _cevapRepository.TalepCevabiGetir(id);
+            var cevapViewModel = Mapper.Map<CevapDetayGumruk, CevapViewModel>(cevapTalep);
+            var talep = _talepDetayFirmaRepository.TalepDetayGetir(id);
+            cevapViewModel.TalepReferansNo = talep.TalepReferansNo;
+            return View(cevapViewModel);
         }
     }
 }

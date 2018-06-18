@@ -20,9 +20,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var gumrukKullanicilar = new List<GumrukKullanici>
             {
-                new GumrukKullanici{TcNo=11111111112,Adi="GGM", Soyadi="GGM", BolgeKodu="123", Durum=true,Email="GGM@gumruk.gov.tr", Rol = roles[1]},
-                new GumrukKullanici{TcNo=11111111113,Adi="BM", Soyadi="BM", BolgeKodu="123", Durum=true,Email="BM@gumruk.gov.tr",  Rol = roles[2]},
-                new GumrukKullanici{TcNo=11111111114,Adi="BIP", Soyadi="BIP", BolgeKodu="123", Durum=true,Email="BIP@gumruk.gov.tr",  Rol = roles[3]}
+                new GumrukKullanici{TcNo=11111111112,Adi="GGM", Soyadi="GGM", BolgeKodu="040001", Durum=true,Email="GGM@gumruk.gov.tr", Rol = roles[1]},
+                new GumrukKullanici{TcNo=11111111113,Adi="BM", Soyadi="BM", BolgeKodu="040001", Durum=true,Email="BM@gumruk.gov.tr",  Rol = roles[2]},
+                new GumrukKullanici{TcNo=11111111114,Adi="BIP", Soyadi="BIP", BolgeKodu="040001", Durum=true,Email="BIP@gumruk.gov.tr",  Rol = roles[3]}
             };
             gumrukKullanicilar.ForEach(u => context.GumrukKullanicilar.Add(u));
 
@@ -38,16 +38,31 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var firmalar = new List<Firma>
             {
-                new Firma { VergiNo=124123, Adi="Firma1", BolgeKodu = "123", TcNoIrtibatPersoneli= "11111111114"},
+                new Firma { VergiNo=124123, Adi="Firma1", BolgeKodu = "040001", TcNoIrtibatPersoneli= "11111111114"},
             };
             firmalar.ForEach(f => context.Firmalar.Add(f));
 
             var gumrukKodlari = new List<GumrukKod>
             {
-                new GumrukKod {Adi = "Akdeniz Bölge", BolgeKodu = "123"},
-                new GumrukKod {Adi = "Karadeniz Bölge", BolgeKodu = "234"},
-                new GumrukKod {Adi = "Marmara Bölge", BolgeKodu = "567"},
-                new GumrukKod {Adi = "Guney Doğu Bölge", BolgeKodu = "789"}
+                new GumrukKod {Adi = "GÜMRÜKLER GENEL MÜDÜRLÜĞÜ MÜDÜRLÜĞÜ", BolgeKodu = "010000"},
+                new GumrukKod {Adi = "GÜRBULAK GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "040001"},
+                new GumrukKod {Adi = "ORTA ANADOLU GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "060000"},
+                new GumrukKod {Adi = "BATI AKDENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "070000"},
+                new GumrukKod {Adi = "KAÇKAR GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "080000"},
+                new GumrukKod {Adi = "ULUDAĞ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "160000"},
+                new GumrukKod {Adi = "İPEKYOLU GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "210000"},
+                new GumrukKod {Adi = "TRAKYA  GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "220000"},
+                new GumrukKod {Adi = "GAP GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "270000"},
+                new GumrukKod {Adi = "DOĞU AKDENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "310000"},
+                new GumrukKod {Adi = "ORTA AKDENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "330000"},
+                new GumrukKod {Adi = "İSTANBUL GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "340000"},
+                new GumrukKod {Adi = "EGE GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "350000"},
+                new GumrukKod {Adi = "DOĞU MARMARA GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "410000"},
+                new GumrukKod {Adi = "FIRAT GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "440000"},
+                new GumrukKod {Adi = "ORTA KARADENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "550000"},
+                new GumrukKod {Adi = "BATI MARMARA GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "590000"},
+                new GumrukKod {Adi = "DOĞU KARADENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "610000"},
+                new GumrukKod {Adi = "DOĞU KARADENİZ GÜMRÜK VE TİCARET BÖLGE MÜDÜRLÜĞÜ", BolgeKodu = "650000"}
             };
             gumrukKodlari.ForEach(g => context.GumrukKodlari.Add(g));
 
@@ -56,8 +71,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
             {
                 new RefTalepCevap {CKonu = "Talep, Bakanlık Merkez teşkilatına iletildi."},
                 new RefTalepCevap {CKonu = "Talep, ilgili gümrük müdürlükleri nezdinde incelenmektedir."},
-                new RefTalepCevap {CKonu = "Talep hakkında ilgili gümrük idarelerine gerekli talimat verildi"}
-
+                new RefTalepCevap {CKonu = "Talep hakkında ilgili gümrük idarelerine gerekli talimat verildi."}
             };
             cevapKonulari.ForEach(c => context.CevapKonulari.Add(c));
 
@@ -66,8 +80,22 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
             {
                 new RefTalepKonu {TKonu = "Tarife,Menşe,Kıymet"},
                 new RefTalepKonu {TKonu = "İthalat"},
-                new RefTalepKonu {TKonu = "İhracat"}
-
+                new RefTalepKonu {TKonu = "İhracat"},
+                new RefTalepKonu {TKonu = "Antrepo"},
+                new RefTalepKonu {TKonu = "Dahilde İşleme"},
+                new RefTalepKonu {TKonu = "Geçici İthalat"},
+                new RefTalepKonu {TKonu = "TIR Sistemi"},
+                new RefTalepKonu {TKonu = "Transit İşlemleri"},
+                new RefTalepKonu {TKonu = "Muafiyetler"},
+                new RefTalepKonu {TKonu = "Gümrüklerde Uygulanan Cezalar"},
+                new RefTalepKonu {TKonu = "Gümrük Personeli"},
+                new RefTalepKonu {TKonu = "Sınır Kapıları"},
+                new RefTalepKonu {TKonu = "Yetkilendirilmiş Yükümlü Mevzuatı ve Uygulamaları"},
+                new RefTalepKonu {TKonu = "Elektronik Gümrük İşlemleri ve TPS"},
+                new RefTalepKonu {TKonu = "Risk Analizleri"},
+                new RefTalepKonu {TKonu = "Gümrük Müşavirleri"},
+                new RefTalepKonu {TKonu = "Sonradan Kontrol İşlemleri "},
+                new RefTalepKonu {TKonu = "Diğer "}
             };
             talepKonulari.ForEach(t => context.TalepKonulari.Add(t));
 
@@ -84,9 +112,9 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.DataContext
 
             var talepDetayi = new List<TalepDetayFirma>
             {
-                new TalepDetayFirma {TalepReferansNo=201806000001, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[0],RefTalepKonuId=1,TalepTarih=DateTime.Now,CevapDurum = false,CevapDetayGumruk = null},
-                new TalepDetayFirma {TalepReferansNo=201806000002, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[1],RefTalepKonuId=2,TalepTarih=DateTime.Now,CevapDurum = true, CevapDetayGumruk = cevapDetayi[0]},
-                new TalepDetayFirma {TalepReferansNo=201806000003, VergiNo=firmalar[0].VergiNo,BolgeKodu="010005",FirmaKullanici=firmaKullanicilar[2],RefTalepKonuId=3,TalepTarih=DateTime.Now,CevapDurum = false, CevapDetayGumruk = null},
+                new TalepDetayFirma {TalepReferansNo=201806000001, VergiNo=firmalar[0].VergiNo,BolgeKodu="040001",FirmaKullanici=firmaKullanicilar[0],RefTalepKonuId=1,TalepTarih=DateTime.Now,CevapDurum = false,CevapDetayGumruk = null},
+                new TalepDetayFirma {TalepReferansNo=201806000002, VergiNo=firmalar[0].VergiNo,BolgeKodu="040001",FirmaKullanici=firmaKullanicilar[1],RefTalepKonuId=2,TalepTarih=DateTime.Now,CevapDurum = true, CevapDetayGumruk = cevapDetayi[0]},
+                new TalepDetayFirma {TalepReferansNo=201806000003, VergiNo=firmalar[0].VergiNo,BolgeKodu="040001",FirmaKullanici=firmaKullanicilar[2],RefTalepKonuId=3,TalepTarih=DateTime.Now,CevapDurum = false, CevapDetayGumruk = null},
 
             };
             talepDetayi.ForEach(z => context.TalepDetayi.Add(z));
