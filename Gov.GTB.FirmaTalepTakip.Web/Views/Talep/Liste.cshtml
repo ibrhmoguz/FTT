@@ -35,9 +35,17 @@
                         <tr>
                             <th>SIRA NO</th>
                             <th>TALEP REFERANS NO</th>
+                            @if (kullaniciRol.KullaniciRolEnum != RolEnum.FIP)
+                            {
+                                <th>FİRMA ADI</th>
+                                <th>FİRMA İRTİBAT PERSONELİ</th>
+                            }
                             <th>TALEP KONUSU</th>
                             <th>TARİH</th>
-                            <th>TALEP YAPAN KİŞİ</th>
+                            @if (kullaniciRol.KullaniciRolEnum == RolEnum.FIP)
+                            {
+                                <th>TALEP YAPAN KİŞİ</th>
+                            }
                             <th>CEVAPLANMA DURUMU</th>
                             <th style="width:15%"></th>
                         </tr>
@@ -48,9 +56,17 @@
                             <tr>
                                 <td>@item.SiraNo</td>
                                 <td>@item.TalepReferansNo</td>
+                                @if (kullaniciRol.KullaniciRolEnum != RolEnum.FIP)
+                                {
+                                    <td>@item.FirmaAdi</td>
+                                    <td>@item.TcNoIrtibatPersoneli</td>
+                                }
                                 <td>@item.RefTalepKonu.TKonu</td>
                                 <td>@item.TalepTarih</td>
-                                <td>@item.FirmaKullanici.Adi @item.FirmaKullanici.Soyadi</td>
+                                @if (kullaniciRol.KullaniciRolEnum == RolEnum.FIP)
+                                {
+                                    <td>@item.FirmaKullanici.Adi @item.FirmaKullanici.Soyadi</td>
+                                }
                                 <td>@(item.CevapDurum ? Html.Raw("CEVAPLANDI") : Html.Raw("CEVAPLANMADI"))</td>
                                 <td>
                                     @if (item.CevapDurum != true)

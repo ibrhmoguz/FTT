@@ -17,27 +17,60 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public IEnumerable<TalepDetayFirma> TalepListesi(long kullaniciTcNo, string bolgeKodu)
+        public IEnumerable<TalepDetayFirmaViewModel> TalepListesi(long kullaniciTcNo, string bolgeKodu)
         {
-            List<TalepDetayFirma> talepList;
+            List<TalepDetayFirmaViewModel> talepList;
             if (!string.IsNullOrEmpty(bolgeKodu))
             {
-                talepList = _dbContext.TalepDetayi
-                                       .Include(t => t.RefTalepKonu)
-                                       .Include(t => t.CevapDetayGumruk)
-                                       .Include(t => t.FirmaKullanici)
-                                       .Where(td => td.BolgeKodu == bolgeKodu).ToList();
+                talepList = (from td in _dbContext.TalepDetayi
+                                                  .Include(t => t.RefTalepKonu)
+                                                  .Include(t => t.CevapDetayGumruk)
+                                                  .Include(t => t.FirmaKullanici)
+                             join k in _dbContext.FirmaKullanicilar on td.FirmaKullaniciId equals k.Id
+                             join f in _dbContext.Firmalar on k.VergiNo equals f.VergiNo
+                             where td.BolgeKodu == bolgeKodu
+                             select new TalepDetayFirmaViewModel
+                             {
+                                 TalepReferansNo = td.TalepReferansNo,
+                                 CevapDetayGumrukId = td.CevapDetayGumrukId,
+                                 VergiNo = td.VergiNo,
+                                 Id = td.Id,
+                                 CevapDurum = td.CevapDurum,
+                                 RefTalepKonuId = td.RefTalepKonuId,
+                                 BolgeKodu = td.BolgeKodu,
+                                 FirmaKullanici = k,
+                                 FirmaAdi = f.Adi,
+                                 KonuTalepAciklama = td.KonuTalepAciklama,
+                                 RefTalepKonu = td.RefTalepKonu,
+                                 TalepTarih = td.TalepTarih,
+                                 TcNoIrtibatPersoneli = k.Adi + " " + k.Soyadi,
+                                 CevapDetayGumruk = td.CevapDetayGumruk
+                             }).ToList();
             }
             else
             {
-                talepList = _dbContext.TalepDetayi
-                                       .Include(t => t.RefTalepKonu)
-                                       .Include(t => t.CevapDetayGumruk)
-                                       .Include(t => t.FirmaKullanici)
-                                       .Where(firma => firma.VergiNo ==
-                                                       (_dbContext.FirmaKullanicilar
-                                                           .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
-                                                       ).VergiNo).ToList();
+                talepList = (from td in _dbContext.TalepDetayi
+                                                  .Include(t => t.RefTalepKonu)
+                                                  .Include(t => t.CevapDetayGumruk)
+                                                  .Include(t => t.FirmaKullanici)
+                             where td.VergiNo == (_dbContext.FirmaKullanicilar
+                                                             .FirstOrDefault(kullanici => kullanici.TcNo == kullaniciTcNo)
+                                                  ).VergiNo
+                             select new TalepDetayFirmaViewModel
+                             {
+                                 TalepReferansNo = td.TalepReferansNo,
+                                 CevapDetayGumrukId = td.CevapDetayGumrukId,
+                                 VergiNo = td.VergiNo,
+                                 Id = td.Id,
+                                 CevapDurum = td.CevapDurum,
+                                 RefTalepKonuId = td.RefTalepKonuId,
+                                 BolgeKodu = td.BolgeKodu,
+                                 FirmaKullanici = td.FirmaKullanici,
+                                 KonuTalepAciklama = td.KonuTalepAciklama,
+                                 RefTalepKonu = td.RefTalepKonu,
+                                 TalepTarih = td.TalepTarih,
+                                 CevapDetayGumruk = td.CevapDetayGumruk
+                             }).ToList();
             }
 
             return talepList;

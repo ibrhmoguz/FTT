@@ -39,6 +39,14 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 
         public IEnumerable<RefTalepKonu> Konular { get; set; }
 
+        [MaxLength(11)]
+        public string TcNoIrtibatPersoneli { get; set; }
+
+        [MaxLength(500)]
+        public string FirmaAdi { get; set; }
+
+        public string IrtibatPersoneli { get; set; }
+
         public TalepDetayFirmaViewModel()
         {
             Konular = new List<RefTalepKonu>();

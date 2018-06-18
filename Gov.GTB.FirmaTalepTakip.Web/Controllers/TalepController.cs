@@ -35,18 +35,16 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         public ActionResult Liste()
         {
             var talepler = TalepleriGetir();
-            var talepViewModel =
-                Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
             var siraNo = 1;
-            foreach (var talepDetayFirmaViewModel in talepViewModel)
+            foreach (var talepDetayFirmaViewModel in talepler)
             {
                 talepDetayFirmaViewModel.SiraNo = siraNo++;
             }
 
-            return View(talepViewModel);
+            return View(talepler);
         }
 
-        private IEnumerable<TalepDetayFirma> TalepleriGetir()
+        private IEnumerable<TalepDetayFirmaViewModel> TalepleriGetir()
         {
             var currentUserTcNo = (long)Session["CurrentUserTcNo"];
             var kullaniciYetkileri = (KullaniciYetkileri)Session["CurrentUser_Auths"];
@@ -79,9 +77,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
         public ActionResult Ara(string talepReferansNo)
         {
-            var talepler = TalepleriGetir();
-            var talepViewModel =
-                Mapper.Map<IEnumerable<TalepDetayFirma>, IEnumerable<TalepDetayFirmaViewModel>>(talepler);
+            var talepViewModel = TalepleriGetir();
 
             if (string.IsNullOrEmpty(talepReferansNo))
             {
