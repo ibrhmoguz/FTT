@@ -23,7 +23,6 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             this._bolgeKodRepository = bolgeKodRepository;
         }
 
-        // GET: Firma
         public ActionResult Liste()
         {
             var firmalar = _firmaRepository.FirmaListesi();
