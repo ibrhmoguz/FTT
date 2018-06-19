@@ -1,0 +1,59 @@
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete
+@model IEnumerable<Gov.GTB.FirmaTalepTakip.Model.ViewModel.FirmaViewModel>
+@{
+    ViewBag.Title = "Personel Görevlendirme Listesi";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-header">
+                @using (Html.BeginForm("Ara", "Gorevlendirme", FormMethod.Get))
+                {
+                    <div class="input-group @FirmaHtmlHelper.ValidationClass("vergiNo", ViewData.ModelState)" style="width: 300px">
+                        <input type="number" name="vergiNo" class="form-control" placeholder="Vergi No Giriniz...">
+
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                }
+                @Html.ValidationMessage("vergiNo", "", new { @class = "text-danger" })
+                <div class="pull-right box-tools">
+                    @Html.ActionLink("Yeni Personel Görevlendir", "Ekle", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="tableFirmaListesi" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>SIRA NO</th>
+                            <th>VERGİ NO</th>
+                            <th>ADI</th>
+                            <th>PERSONEL</th>
+                            <th style="width:10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.SiraNo</td>
+                                <td>@item.VergiNo</td>
+                                <td>@item.Adi</td>
+                                <td>@item.GumrukKullaniciAdSoyad</td>
+                                <td>
+                                    @Html.ActionLink("Güncelle", "Duzenle", new { item.FirmaId }, new { @class = "btn btn-primary btn-xs" })
+                                    @Html.ActionLink("Sil", "Sil", new { item.FirmaId }, new { @class = "btn btn-danger btn-xs" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

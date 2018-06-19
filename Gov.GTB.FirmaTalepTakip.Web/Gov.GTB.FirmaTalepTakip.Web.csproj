@@ -228,7 +228,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FirmaController.cs" />
-    <Compile Include="Controllers\GorevlendirController.cs" />
+    <Compile Include="Controllers\GorevlendirmeController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\TalepController.cs" />
     <Compile Include="Global.asax.cs">
@@ -281,7 +281,8 @@
     <Content Include="Views\Talep\Duzenle.cshtml" />
     <Content Include="Views\Talep\Cevap.cshtml" />
     <Content Include="Views\Talep\Cevapla.cshtml" />
-    <Content Include="Views\Gorevlendir\Liste.cshtml" />
+    <Content Include="Views\Gorevlendirme\Liste.cshtml" />
+    <Content Include="Views\Gorevlendirme\Duzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
