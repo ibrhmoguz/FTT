@@ -62,9 +62,9 @@
     <Compile Include="Interface\IGumrukKodRepository.cs" />
     <Compile Include="Interface\IFirmaRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
-    <Compile Include="Migrations\201806181902181_initial.cs" />
-    <Compile Include="Migrations\201806181902181_initial.Designer.cs">
-      <DependentUpon>201806181902181_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201806191614577_Initial.cs" />
+    <Compile Include="Migrations\201806191614577_Initial.Designer.cs">
+      <DependentUpon>201806191614577_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,8 +89,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806181902181_initial.resx">
-      <DependentUpon>201806181902181_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806191614577_Initial.resx">
+      <DependentUpon>201806191614577_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

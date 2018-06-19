@@ -49,6 +49,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                         return View();
                     }
 
+                    Session["CurrentUserId"] = kullanici.Id;
                     Session["CurrentUserTcNo"] = kullanici.TcNo;
                     Session["CurrentUserName_SurName"] = kullanici.Adi + " " + kullanici.Soyadi;
                     var firmaKullanici = _userRepository.FirmaKullanicilariGetir().FirstOrDefault(fk => fk.TcNo == kullanici.TcNo);
@@ -105,10 +106,8 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                 var firmaKullanici = Mapper.Map<FirmaKullaniciViewModel, FirmaKullanici>(firmaKullaniciViewModel);
                 await _userRepository.FirmaKullaniciKaydetGuncelle(firmaKullanici);
                 var firma = _firmaRepository.FirmaGetir(Convert.ToInt32(firmaKullaniciViewModel.FirmaId));
-                var irtibatPersoneli = _userRepository.KullanicilariGetir()
-                    .FirstOrDefault(kullanici => kullanici.TcNo.ToString().Equals(firma.TcNoIrtibatPersoneli));
-                await new MailHelper().SendMail(irtibatPersoneli.Email,
-                    string.Format(Resources.FirmaKullaniciOnayMailMsg, firmaKullanici.Adi, firmaKullanici.Soyadi));
+                var irtibatPersoneli = _userRepository.GumrukKullanicilariGetir().FirstOrDefault(kullanici => kullanici.Id == firma.GumrukKullaniciId);
+                await new MailHelper().SendMail(irtibatPersoneli.Email, string.Format(Resources.FirmaKullaniciOnayMailMsg, firmaKullanici.Adi, firmaKullanici.Soyadi));
                 return RedirectToAction("KullaniciTalepInfo");
             }
             else
@@ -144,7 +143,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             }
 
             var firmaList = _firmaRepository.FirmaListesi()
-                .Where(firma => firma.TcNoIrtibatPersoneli == Session["CurrentUserTcNo"].ToString()).ToList();
+                .Where(firma => firma.GumrukKullaniciId == (long)Session["CurrentUserId"]).ToList();
             var userList = (from u in _userRepository.FirmaKullanicilariGetir()
                             join f in firmaList on u.VergiNo equals f.VergiNo
                             select new FirmaKullaniciViewModel

@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
+using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
 
@@ -17,12 +18,16 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
 
         public IEnumerable<Firma> FirmaListesi()
         {
-            return _dbContext.Firmalar.Include(firma => firma.BolgeKod).ToList();
+            return _dbContext.Firmalar
+                             .Include(firma => firma.BolgeKod)
+                             .Include(firma => firma.GumrukKullanici).ToList();
         }
 
         public Firma FirmaGetir(int firmaId)
         {
-            return _dbContext.Firmalar.Include(firma => firma.BolgeKod).FirstOrDefault(f => f.FirmaId == firmaId);
+            return _dbContext.Firmalar.Include(firma => firma.BolgeKod)
+                                      .Include(firma => firma.GumrukKullanici)
+                                      .FirstOrDefault(f => f.FirmaId == firmaId);
         }
 
         public bool FirmaKaydetGuncelle(Firma firma)
@@ -32,7 +37,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                 var firmaFromDb = this.FirmaGetir(firma.FirmaId);
                 firmaFromDb.Adi = firma.Adi;
                 firmaFromDb.VergiNo = firma.VergiNo;
-                firmaFromDb.TcNoIrtibatPersoneli = firma.TcNoIrtibatPersoneli;
+                firmaFromDb.GumrukKullaniciId = firma.GumrukKullaniciId;
                 firmaFromDb.BolgeKodu = firma.BolgeKodu;
             }
             else
@@ -52,6 +57,23 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             _dbContext.Firmalar.Remove(firmaFromDb);
             _dbContext.SaveChanges();
             return true;
+        }
+
+        public IEnumerable<FirmaViewModel> GorevlendirmeFirmaListesi(string bolgeKodu)
+        {
+            return (from f in _dbContext.Firmalar.Include(t => t.BolgeKod)
+                    join k in _dbContext.GumrukKullanicilar on f.GumrukKullaniciId equals k.Id
+                    where f.BolgeKodu == bolgeKodu
+                    select new FirmaViewModel
+                    {
+                        VergiNo = f.VergiNo.ToString(),
+                        BolgeKodu = f.BolgeKodu,
+                        Adi = f.Adi,
+                        FirmaId = f.FirmaId,
+                        GumrukKullaniciId = f.GumrukKullaniciId.Value,
+                        GumrukKullaniciAdSoyad = k.Adi + k.Soyadi
+                    }).ToList();
+
         }
     }
 }

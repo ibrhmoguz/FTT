@@ -29,5 +29,11 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public IEnumerable<GumrukKodViewModel> GumrukKodlari { get; set; }
 
         public bool IsDisabled { get; set; }
+
+        public int SiraNo { get; set; }
+
+        public long? GumrukKullaniciId { get; set; }
+
+        public string GumrukKullaniciAdSoyad { get; set; }
     }
 }

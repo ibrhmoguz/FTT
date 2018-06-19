@@ -50,8 +50,9 @@
                         @Html.TextAreaFor(m => m.CevapAciklama, 5, 20, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CevapAciklama, "", new { @class = "help-block" })
                     </div>
-                    <div class="box-footer text-center">
-                        <button type="submit" class="btn btn-primary">@(Model.CevapDetayGumrukId.HasValue ? Html.Raw("Talebi Güncelle") : Html.Raw("Talebi Cevapla"))</button>
+                    <div class="box-footer">
+                        <a href="../Liste" class="btn btn-danger">İptal</a>
+                        <button type="submit" class="btn btn-primary pull-right">@(Model.CevapDetayGumrukId.HasValue ? Html.Raw("Talebi Güncelle") : Html.Raw("Talebi Cevapla"))</button>
                     </div>
                 </div>
             </div>

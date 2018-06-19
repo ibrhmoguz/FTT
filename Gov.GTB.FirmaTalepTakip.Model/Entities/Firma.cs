@@ -11,9 +11,6 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
 
         public long VergiNo { get; set; }
 
-        [MaxLength(11)]
-        public string TcNoIrtibatPersoneli { get; set; }
-
         [MaxLength(500)]
         [Required]
         public string Adi { get; set; }
@@ -21,7 +18,9 @@ namespace Gov.GTB.FirmaTalepTakip.Model.Entities
         [MaxLength(50)]
         [Required]
         public string BolgeKodu { get; set; }
-
         public virtual GumrukKod BolgeKod { get; set; }
+
+        public long? GumrukKullaniciId { get; set; }
+        public virtual GumrukKullanici GumrukKullanici { get; set; }
     }
 }

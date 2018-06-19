@@ -3,7 +3,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -67,13 +67,15 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
                     {
                         FirmaId = c.Int(nullable: false, identity: true),
                         VergiNo = c.Long(nullable: false),
-                        TcNoIrtibatPersoneli = c.String(maxLength: 11),
                         Adi = c.String(nullable: false, maxLength: 500),
                         BolgeKodu = c.String(nullable: false, maxLength: 50),
+                        GumrukKullaniciId = c.Long(),
                     })
                 .PrimaryKey(t => t.FirmaId)
                 .ForeignKey("dbo.GumrukKod", t => t.BolgeKodu, cascadeDelete: true)
-                .Index(t => t.BolgeKodu);
+                .ForeignKey("dbo.Kullanici", t => t.GumrukKullaniciId)
+                .Index(t => t.BolgeKodu)
+                .Index(t => t.GumrukKullaniciId);
             
             CreateTable(
                 "dbo.GumrukKod",
@@ -145,12 +147,14 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Migrations
             DropForeignKey("dbo.TalepDetayFirma", "FirmaKullaniciId", "dbo.Kullanici");
             DropForeignKey("dbo.TalepDetayFirma", "CevapDetayGumrukId", "dbo.CevapDetayGumruk");
             DropForeignKey("dbo.Kullanici", "RolId", "dbo.Rol");
+            DropForeignKey("dbo.Firma", "GumrukKullaniciId", "dbo.Kullanici");
             DropForeignKey("dbo.Firma", "BolgeKodu", "dbo.GumrukKod");
             DropForeignKey("dbo.CevapDetayGumruk", "RefTalepCevapId", "dbo.RefTalepCevap");
             DropIndex("dbo.TalepDetayFirmaLog", new[] { "CevapDetayGumrukId" });
             DropIndex("dbo.TalepDetayFirma", new[] { "CevapDetayGumrukId" });
             DropIndex("dbo.TalepDetayFirma", new[] { "RefTalepKonuId" });
             DropIndex("dbo.TalepDetayFirma", new[] { "FirmaKullaniciId" });
+            DropIndex("dbo.Firma", new[] { "GumrukKullaniciId" });
             DropIndex("dbo.Firma", new[] { "BolgeKodu" });
             DropIndex("dbo.Kullanici", new[] { "RolId" });
             DropIndex("dbo.CevapDetayGumruk", new[] { "RefTalepCevapId" });
