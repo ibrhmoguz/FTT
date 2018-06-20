@@ -11,6 +11,6 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
         bool FirmaKaydetGuncelle(Firma firma);
         bool FirmaSil(int firmaId);
         IEnumerable<GorevlendirmeFirmaViewModel> GorevlendirilecekFirmalariGetir(string bolgeKodu);
-        bool FirmaPersonelGorevlendir(int firmaId, long kullaniciId);
+        bool FirmaPersonelGorevlendir(int firmaId, long? kullaniciId);
     }
 }

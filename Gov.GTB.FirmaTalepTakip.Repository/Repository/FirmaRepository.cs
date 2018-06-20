@@ -70,7 +70,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                     }).ToList();
         }
 
-        public bool FirmaPersonelGorevlendir(int firmaId, long kullaniciId)
+        public bool FirmaPersonelGorevlendir(int firmaId, long? kullaniciId)
         {
             if (firmaId == 0) return false;
 

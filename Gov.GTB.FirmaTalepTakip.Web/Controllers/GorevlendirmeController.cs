@@ -128,9 +128,9 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             }
         }
 
-        public ActionResult Sil(int firmaId)
+        public ActionResult Sil(int id)
         {
-            //_firmaRepository.FirmaSil(firmaId);
+            _firmaRepository.FirmaPersonelGorevlendir(id, null);
             return RedirectToAction("Liste");
         }
     }
