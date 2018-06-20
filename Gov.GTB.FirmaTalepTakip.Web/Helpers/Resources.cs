@@ -14,5 +14,11 @@
         public static string TalepReferansNoFormatErrorMsg = "Talep referans numarası formatı hatalı!";
         public static string FirmaSelectInfoMsg = "Firma Seçiniz...";
         public static string PersonelSelectInfoMsg = "Personel Seçiniz...";
+        public static string FirmaVergiNo = "Firma Vergi No";
+        public static string TalepReferansNo = "Talep Referans No";
+        public static string BolgeIrtibatPersoneli = "Bölge İrtibat Personeli";
+        public static string FirmaVergiNoEmptyErrorMsg = "Firma vergi numarası giriniz!";
+        public static string BolgeIrtibatPersoneliEmptyErrorMsg = "Bölge irtibat personeli giriniz!";
+        public static string FirmaVergiNoFormatErrorMsg = "Firma vergi numarası formatı hatalı";
     }
 }

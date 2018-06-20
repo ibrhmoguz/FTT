@@ -56,6 +56,7 @@
     <Compile Include="Entities\GumrukKullanici.cs" />
     <Compile Include="Entities\TalepDetayFirmaLog.cs" />
     <Compile Include="Entities\TalepDetayFirma.cs" />
+    <Compile Include="Enums\AramaKriterEnum.cs" />
     <Compile Include="Enums\RolEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CevapViewModel.cs" />

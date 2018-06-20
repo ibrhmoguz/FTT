@@ -35,13 +35,18 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         public ActionResult Liste()
         {
             var talepler = TalepleriGetir();
+            SiraNoAyarla(talepler);
+
+            return View(talepler);
+        }
+
+        private static void SiraNoAyarla(IEnumerable<TalepDetayFirmaViewModel> talepler)
+        {
             var siraNo = 1;
             foreach (var talepDetayFirmaViewModel in talepler)
             {
                 talepDetayFirmaViewModel.SiraNo = siraNo++;
             }
-
-            return View(talepler);
         }
 
         private IEnumerable<TalepDetayFirmaViewModel> TalepleriGetir()
@@ -49,7 +54,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             var currentUserTcNo = (long)Session["CurrentUserTcNo"];
             var kullaniciYetkileri = (KullaniciYetkileri)Session["CurrentUser_Auths"];
             string bolgeKodu = null;
-            if (kullaniciYetkileri.KullaniciRolEnum == RolEnum.BIP)
+            if (kullaniciYetkileri.KullaniciRolEnum != RolEnum.FIP)
             {
                 var bipGumrukKullanici = (GumrukKullanici)Session["CurrentGumrukKullanici"];
                 bolgeKodu = bipGumrukKullanici.BolgeKodu;
@@ -75,25 +80,64 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             return View(talepViewModel);
         }
 
-        public ActionResult Ara(string talepReferansNo)
+        public ActionResult Ara(string aramaKriteri, string aramaKriterDegeri)
         {
             var talepViewModel = TalepleriGetir();
+            SiraNoAyarla(talepViewModel);
 
-            if (string.IsNullOrEmpty(talepReferansNo))
+            if (string.IsNullOrEmpty(aramaKriterDegeri))
             {
-                ModelState.AddModelError("talepReferansNo", Resources.TalepReferansNoEmptyErrorMsg);
+                ModelState.AddModelError("aramaKriterDegeri", GetModelEmptyErrorMessage(aramaKriteri));
                 return View("Liste", talepViewModel);
             }
 
-            long talepReferansNoParam = 0;
-            if (!long.TryParse(talepReferansNo, out talepReferansNoParam))
+            if (aramaKriteri == ((int)AramaKriterEnum.BolgeIrtibatPersoneli).ToString())
             {
-                ModelState.AddModelError("talepReferansNo", Resources.TalepReferansNoFormatErrorMsg);
-                return View("Liste", talepViewModel);
+                var filteredTalepler = talepViewModel.Where(z => z.IrtibatPersoneli.Contains(aramaKriterDegeri));
+                return View("Liste", filteredTalepler);
             }
+            else
+            {
+                long aramaKriterDegeriParam = 0;
+                if (!long.TryParse(aramaKriterDegeri, out aramaKriterDegeriParam))
+                {
+                    ModelState.AddModelError("aramaKriterDegeri", GetModelFormatErrorMessage(aramaKriteri));
+                    return View("Liste", talepViewModel);
+                }
 
-            var filteredTalepler = talepViewModel.Where(z => z.TalepReferansNo == talepReferansNoParam);
-            return View("Liste", filteredTalepler);
+                IEnumerable<TalepDetayFirmaViewModel> filteredTalepler = new List<TalepDetayFirmaViewModel>();
+                if (aramaKriteri == ((int)AramaKriterEnum.TalepReferansNo).ToString())
+                    filteredTalepler = talepViewModel.Where(z => z.TalepReferansNo == aramaKriterDegeriParam);
+                else if (aramaKriteri == ((int)AramaKriterEnum.FirmaVergiNo).ToString())
+                    filteredTalepler = talepViewModel.Where(z => z.VergiNo == aramaKriterDegeriParam);
+
+                return View("Liste", filteredTalepler);
+            }
+        }
+
+        public string GetModelEmptyErrorMessage(string aramaKriteri)
+        {
+            if (aramaKriteri == ((int)AramaKriterEnum.FirmaVergiNo).ToString())
+                return Resources.FirmaVergiNoEmptyErrorMsg;
+
+            if (aramaKriteri == ((int)AramaKriterEnum.TalepReferansNo).ToString())
+                return Resources.TalepReferansNoEmptyErrorMsg;
+
+            if (aramaKriteri == ((int)AramaKriterEnum.BolgeIrtibatPersoneli).ToString())
+                return Resources.BolgeIrtibatPersoneliEmptyErrorMsg;
+
+            return string.Empty;
+        }
+
+        public string GetModelFormatErrorMessage(string aramaKriteri)
+        {
+            if (aramaKriteri == ((int)AramaKriterEnum.FirmaVergiNo).ToString())
+                return Resources.FirmaVergiNoFormatErrorMsg;
+
+            if (aramaKriteri == ((int)AramaKriterEnum.TalepReferansNo).ToString())
+                return Resources.TalepReferansNoFormatErrorMsg;
+
+            return string.Empty;
         }
 
         [HttpPost]

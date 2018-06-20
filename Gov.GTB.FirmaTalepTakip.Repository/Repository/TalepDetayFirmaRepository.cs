@@ -43,7 +43,8 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                                  KonuTalepAciklama = td.KonuTalepAciklama,
                                  RefTalepKonu = td.RefTalepKonu,
                                  TalepTarih = td.TalepTarih,
-                                 TcNoIrtibatPersoneli = k.Adi + " " + k.Soyadi,
+                                 IrtibatPersoneli = k.Adi + " " + k.Soyadi,
+                                 TcNoIrtibatPersoneli = k.TcNo.ToString(),
                                  CevapDetayGumruk = td.CevapDetayGumruk
                              }).ToList();
             }
