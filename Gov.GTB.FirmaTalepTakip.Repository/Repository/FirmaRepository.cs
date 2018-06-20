@@ -59,20 +59,26 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             return true;
         }
 
-        public IEnumerable<FirmaViewModel> GorevlendirmeFirmaListesi(string bolgeKodu)
+        public IEnumerable<GorevlendirmeFirmaViewModel> GorevlendirilecekFirmalariGetir(string bolgeKodu)
         {
-            return (from f in _dbContext.Firmalar.Include(t => t.BolgeKod)
-                    join k in _dbContext.GumrukKullanicilar on f.GumrukKullaniciId equals k.Id
-                    where f.BolgeKodu == bolgeKodu
-                    select new FirmaViewModel
+            return (from f in _dbContext.Firmalar
+                    where f.BolgeKodu == bolgeKodu && f.GumrukKullaniciId == null
+                    select new GorevlendirmeFirmaViewModel
                     {
-                        VergiNo = f.VergiNo.ToString(),
-                        BolgeKodu = f.BolgeKodu,
-                        Adi = f.Adi,
                         FirmaId = f.FirmaId,
-                        GumrukKullaniciId = f.GumrukKullaniciId.Value,
-                        GumrukKullaniciAdSoyad = k.Adi + k.Soyadi
+                        FirmaAdi = f.Adi
                     }).ToList();
+        }
+
+        public bool FirmaPersonelGorevlendir(int firmaId, long kullaniciId)
+        {
+            if (firmaId == 0) return false;
+
+            var firmaFromDb = this.FirmaGetir(firmaId);
+            firmaFromDb.GumrukKullaniciId = kullaniciId;
+
+            _dbContext.SaveChanges();
+            return true;
 
         }
     }

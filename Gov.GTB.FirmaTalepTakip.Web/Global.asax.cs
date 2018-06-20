@@ -21,10 +21,11 @@ namespace Gov.GTB.FirmaTalepTakip.Web
             Mapper.Initialize(m =>
             {
                 m.CreateMap<Firma, FirmaViewModel>()
-                    .ForMember(fv => fv.GumrukKullaniciAdSoyad,
-                        opt => opt.MapFrom(f => f.GumrukKullanici.Adi + " " + f.GumrukKullanici.Soyadi));
+                    .ForMember(fv => fv.GumrukKullaniciAdSoyad, opt => opt.MapFrom(f => f.GumrukKullanici.Adi + " " + f.GumrukKullanici.Soyadi))
+                    .ForMember(fv => fv.Id, opt => opt.MapFrom(f => f.FirmaId));
                 m.CreateMap<FirmaViewModel, Firma>()
-                    .ForMember(f => f.GumrukKullaniciId, opt => opt.MapFrom(fv => fv.GumrukKullaniciId));
+                    .ForMember(f => f.GumrukKullaniciId, opt => opt.MapFrom(fv => fv.GumrukKullaniciId))
+                    .ForMember(fv => fv.FirmaId, opt => opt.MapFrom(f => f.Id));
                 m.CreateMap<GumrukKod, GumrukKodViewModel>();
                 m.CreateMap<GumrukKodViewModel, GumrukKod>();
                 m.CreateMap<TalepDetayFirma, TalepDetayFirmaViewModel>();

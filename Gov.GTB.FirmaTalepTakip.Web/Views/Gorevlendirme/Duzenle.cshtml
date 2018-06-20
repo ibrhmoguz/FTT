@@ -1,7 +1,86 @@
-﻿
+﻿@using Gov.GTB.FirmaTalepTakip.Web.Helpers
+@using Gov.GTB.FirmaTalepTakip.Web.Infrastructure.Concrete;
+@model Gov.GTB.FirmaTalepTakip.Model.ViewModel.GorevlendirmeViewModel
 @{
-    ViewBag.Title = "Duzenle";
+    ViewBag.Title = "Personel Görevlendir - " + ((@Model.GumrukKullaniciId != 0) ? "Güncelle" : "Yeni Kayıt");
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+@{
+    var firmaListesi = new List<SelectListItem> { };
+    if (Model.GorevlendirmeFirmaListesi != null)
+    {
+        Model.GorevlendirmeFirmaListesi.ToList().ForEach(g => firmaListesi.Add(
+            new SelectListItem()
+            {
+                Text = g.FirmaAdi,
+                Value = g.FirmaId.ToString()
+            }));
+    }
 
+    var personelListesi = new List<SelectListItem> { };
+    if (Model.GorevlendirmKullaniciListesi != null)
+    {
+        Model.GorevlendirmKullaniciListesi.ToList().ForEach(g => personelListesi.Add(
+            new SelectListItem()
+            {
+                Text = g.KullaniciAdi,
+                Value = g.KullaniciId.ToString()
+            }));
+    }
+
+    var url = Model.FirmaId != 0 ? "../Liste" : "Liste";
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#FirmaId").change(function () {
+            var firmaId = $(this).val();
+            if (firmaId === '') {
+                $('#VergiNo').val('');
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: '/Account/FirmaVergiNoGetir?firmaId=' + firmaId,
+                    success: function (result) {
+                        console.log(result);
+                        $('#VergiNo').val(result);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+@using (Html.BeginForm("Duzenle", "Gorevlendirme", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("FirmaId", ViewData.ModelState)">
+                        <label>Firma Adı </label>
+                        @Html.DropDownListFor(m => m.FirmaId, firmaListesi, Resources.FirmaSelectInfoMsg, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FirmaId, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("VergiNo", ViewData.ModelState)">
+                        <label>Firma Vergi No </label>
+                        @Html.TextBoxFor(m => m.VergiNo, null, new { @class = "form-control", @readonly = true })
+                        @Html.ValidationMessageFor(m => m.VergiNo, "", new { @class = "help-block" })
+                    </div>
+                    <div class="form-group @FirmaHtmlHelper.ValidationClass("GumrukKullaniciId", ViewData.ModelState)">
+                        <label>Personel </label>
+                        @Html.DropDownListFor(m => m.GumrukKullaniciId, personelListesi, Resources.PersonelSelectInfoMsg, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.GumrukKullaniciId, "", new { @class = "help-block" })
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a href=@url class="btn btn-danger">İptal</a>
+                    <button type="submit" class="btn btn-primary pull-right">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

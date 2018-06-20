@@ -17,10 +17,12 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
     public class GorevlendirmeController : Controller
     {
         private readonly IFirmaRepository _firmaRepository;
+        private readonly IUserRepository _userRepository;
 
-        public GorevlendirmeController(IFirmaRepository firmaRepository)
+        public GorevlendirmeController(IFirmaRepository firmaRepository, IUserRepository userRepository)
         {
             _firmaRepository = firmaRepository;
+            _userRepository = userRepository;
         }
 
         public ActionResult Liste()
@@ -64,19 +66,66 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
 
         public ActionResult Ekle()
         {
-            var firmaViewModel = new FirmaViewModel
+            var currentGumrukKullanici = (GumrukKullanici)Session["CurrentGumrukKullanici"];
+            var gorevlendirmeViewModel = new GorevlendirmeViewModel
             {
-                IsDisabled = false
+                GorevlendirmeFirmaListesi = _firmaRepository.GorevlendirilecekFirmalariGetir(currentGumrukKullanici.BolgeKodu),
+                GorevlendirmKullaniciListesi = _userRepository.GorevlendirilecekKullanicilariGetir(currentGumrukKullanici.BolgeKodu)
             };
-            return View("Duzenle", firmaViewModel);
+            return View("Duzenle", gorevlendirmeViewModel);
         }
 
-        public ActionResult Duzenle(int firmaId)
+        public ActionResult Duzenle(int id)
         {
-            var firmaFromDb = _firmaRepository.FirmaGetir(firmaId);
-            var firmaViewModel = Mapper.Map<Firma, FirmaViewModel>(firmaFromDb);
-            firmaViewModel.IsDisabled = true;
-            return View(firmaViewModel);
+            var gorevlendirmeViewModel = GorevlendirmeViewModelGetir(id);
+            return View(gorevlendirmeViewModel);
+        }
+
+        private GorevlendirmeViewModel GorevlendirmeViewModelGetir(int id)
+        {
+            var firmaFromDb = _firmaRepository.FirmaGetir(id);
+            var currentGumrukKullanici = (GumrukKullanici)Session["CurrentGumrukKullanici"];
+            var gorevlendirmeViewModel = new GorevlendirmeViewModel
+            {
+                FirmaId = firmaFromDb.FirmaId,
+                VergiNo = firmaFromDb.VergiNo.ToString(),
+                GumrukKullaniciId = firmaFromDb.GumrukKullaniciId ?? 0,
+                GorevlendirmeFirmaListesi = new List<GorevlendirmeFirmaViewModel>
+                {
+                    new GorevlendirmeFirmaViewModel
+                    {
+                        FirmaId = firmaFromDb.FirmaId,
+                        FirmaAdi = firmaFromDb.Adi
+                    }
+                },
+                GorevlendirmKullaniciListesi = _userRepository.GorevlendirilecekKullanicilariGetir(currentGumrukKullanici.BolgeKodu)
+            };
+            return gorevlendirmeViewModel;
+        }
+
+        [HttpPost]
+        public ActionResult Duzenle(GorevlendirmeViewModel gorevlendirmeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _firmaRepository.FirmaPersonelGorevlendir(gorevlendirmeViewModel.FirmaId, gorevlendirmeViewModel.GumrukKullaniciId);
+                return RedirectToAction("Liste");
+            }
+            else
+            {
+                if (gorevlendirmeViewModel.FirmaId == 0)
+                {
+                    var currentGumrukKullanici = (GumrukKullanici)Session["CurrentGumrukKullanici"];
+                    gorevlendirmeViewModel.GorevlendirmeFirmaListesi = _firmaRepository.GorevlendirilecekFirmalariGetir(currentGumrukKullanici.BolgeKodu);
+                    gorevlendirmeViewModel.GorevlendirmKullaniciListesi = _userRepository.GorevlendirilecekKullanicilariGetir(currentGumrukKullanici.BolgeKodu);
+                }
+                else
+                {
+                    gorevlendirmeViewModel = GorevlendirmeViewModelGetir(gorevlendirmeViewModel.FirmaId);
+                }
+
+                return View(gorevlendirmeViewModel);
+            }
         }
 
         public ActionResult Sil(int firmaId)

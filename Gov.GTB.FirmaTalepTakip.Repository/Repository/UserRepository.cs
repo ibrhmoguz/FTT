@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
 using Gov.GTB.FirmaTalepTakip.Model.Enums;
+using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 using Gov.GTB.FirmaTalepTakip.Repository.DataContext;
 using Gov.GTB.FirmaTalepTakip.Repository.Interface;
 
@@ -67,6 +68,21 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             firmaKullanici.Durum = true;
             _dbContext.SaveChanges();
             return firmaKullanici.Email;
+        }
+
+        public IEnumerable<GorevlendirmeKullaniciViewModel> GorevlendirilecekKullanicilariGetir(string bolgeKodu)
+        {
+            var atananKullanicilar = _dbContext.Firmalar.Where(firma => firma.GumrukKullaniciId != null)
+                                                        .Select(f => f.GumrukKullaniciId).ToList();
+            return (from k in _dbContext.GumrukKullanicilar
+                    where k.BolgeKodu == bolgeKodu &&
+                          !atananKullanicilar.Contains(k.Id) &&
+                          k.RolId == (int)RolEnum.BIP
+                    select new GorevlendirmeKullaniciViewModel
+                    {
+                        KullaniciId = k.Id,
+                        KullaniciAdi = k.Adi + " " + k.Soyadi
+                    }).ToList();
         }
     }
 }

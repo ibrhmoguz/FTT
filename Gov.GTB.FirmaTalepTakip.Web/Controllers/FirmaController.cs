@@ -60,7 +60,7 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
             else
             {
                 firmaViewModel.GumrukKodlari = BolgeKodGetir();
-                if (firmaViewModel.FirmaId > 0)
+                if (firmaViewModel.Id > 0)
                 {
                     firmaViewModel.IsDisabled = true;
                 }

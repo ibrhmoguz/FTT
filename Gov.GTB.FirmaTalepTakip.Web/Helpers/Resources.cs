@@ -12,5 +12,7 @@
         public static string FirmaKullaniciOnaylandiMailMsg = "Kullanıcı talebiniz oanylanmıştır. Firma Talep Takip programına TC. numaranız ve şifreniz ile giriş yapabilirsiniz.";
         public static string TalepReferansNoEmptyErrorMsg = "Talep referans numarası giriniz!";
         public static string TalepReferansNoFormatErrorMsg = "Talep referans numarası formatı hatalı!";
+        public static string FirmaSelectInfoMsg = "Firma Seçiniz...";
+        public static string PersonelSelectInfoMsg = "Personel Seçiniz...";
     }
 }

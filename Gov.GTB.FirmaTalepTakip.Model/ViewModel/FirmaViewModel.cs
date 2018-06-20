@@ -6,7 +6,8 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 {
     public class FirmaViewModel
     {
-        public int FirmaId { get; set; }
+        [Required(ErrorMessage = "Firma Seçiniz!")]
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Vergi numarası giriniz!")]
         [DisplayName("Vergi No")]
@@ -35,5 +36,9 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
         public long? GumrukKullaniciId { get; set; }
 
         public string GumrukKullaniciAdSoyad { get; set; }
+
+        public IEnumerable<GorevlendirmeFirmaViewModel> GorevlendirmeFirmaListesi { get; set; }
+
+        public IEnumerable<GorevlendirmeKullaniciViewModel> GorevlendirmKullaniciListesi { get; set; }
     }
 }

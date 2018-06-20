@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gov.GTB.FirmaTalepTakip.Model.Entities;
+using Gov.GTB.FirmaTalepTakip.Model.ViewModel;
 
 namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
 {
@@ -11,5 +12,6 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
         IEnumerable<FirmaKullanici> FirmaKullanicilariGetir();
         Task<bool> FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici);
         string FirmaKullaniciTalepOnayla(int kullaniciId);
+        IEnumerable<GorevlendirmeKullaniciViewModel> GorevlendirilecekKullanicilariGetir(string bolgeKodu);
     }
 }
