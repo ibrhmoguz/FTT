@@ -101,7 +101,16 @@ new SelectListItem {Value = "3", Text = Resources.BolgeIrtibatPersoneli}
                         {
                             <tr>
                                 <td>@item.SiraNo</td>
-                                <td>@item.TalepReferansNo</td>
+                                <td>
+                                    @if (kullaniciRol.KullaniciRolEnum == RolEnum.BM || kullaniciRol.KullaniciRolEnum == RolEnum.GGM)
+                                    {
+                                        <a href="Goruntule/@item.Id">@item.TalepReferansNo</a>
+                                    }
+                                    else
+                                    {
+                                        @item.TalepReferansNo
+                                    }
+                                </td>
                                 @if (kullaniciRol.KullaniciRolEnum != RolEnum.FIP)
                                 {
                                     <td>@item.FirmaAdi</td>

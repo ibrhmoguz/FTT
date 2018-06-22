@@ -21,7 +21,7 @@
 
 @using (Html.BeginForm("Duzenle", "Firma", FormMethod.Post))
 {
-    @Html.Hidden("FirmaId", Model.FirmaId)
+    @Html.Hidden("FirmaId", Model.Id)
     @Html.Hidden("IsDisabled", Model.IsDisabled)
     <div class="row">
         <div class="col-xs-12">
