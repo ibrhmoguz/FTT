@@ -220,10 +220,13 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         {
             var talepFromDb = _talepDetayFirmaRepository.TalepDetayGetir(id);
             var talepViewModel = Mapper.Map<TalepDetayFirma, TalepDetayFirmaViewModel>(talepFromDb);
-            var kullanici = _userRepository.KullaniciGetirTcNoIle(talepViewModel.CevapDetayGumruk.TcNoIrtibatPersoneli);
-            if (kullanici != null)
+            if (talepViewModel.CevapDetayGumruk != null)
             {
-                talepViewModel.CevaplayanPersonel = kullanici.Adi + " " + kullanici.Soyadi;
+                var kullanici = _userRepository.KullaniciGetirTcNoIle(talepViewModel.CevapDetayGumruk.TcNoIrtibatPersoneli);
+                if (kullanici != null)
+                {
+                    talepViewModel.CevaplayanPersonel = kullanici.Adi + " " + kullanici.Soyadi;
+                }
             }
             return View(talepViewModel);
         }
