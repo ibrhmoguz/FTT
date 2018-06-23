@@ -13,5 +13,6 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Interface
         Task<bool> FirmaKullaniciKaydetGuncelle(FirmaKullanici firmaKullanici);
         string FirmaKullaniciTalepOnayla(int kullaniciId);
         IEnumerable<GorevlendirmeKullaniciViewModel> GorevlendirilecekKullanicilariGetir(string bolgeKodu);
+        Kullanici KullaniciGetirTcNoIle(string tcNo);
     }
 }

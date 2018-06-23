@@ -21,15 +21,17 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
         private readonly IRefTalepKonuRepository _refTalepKonuRepository;
         public readonly ICevapRepository _cevapRepository;
         private readonly IRefTalepCevapRepository _refTalepCevapRepository;
+        private readonly IUserRepository _userRepository;
 
         public TalepController(ITalepDetayFirmaRepository talepDetayFirmaRepository,
             IRefTalepKonuRepository refTalepKonuRepository, ICevapRepository cevapRepository,
-            IRefTalepCevapRepository refTalepCevapRepository)
+            IRefTalepCevapRepository refTalepCevapRepository, IUserRepository userRepository)
         {
             _talepDetayFirmaRepository = talepDetayFirmaRepository;
             _refTalepKonuRepository = refTalepKonuRepository;
             _cevapRepository = cevapRepository;
             _refTalepCevapRepository = refTalepCevapRepository;
+            _userRepository = userRepository;
         }
 
         public ActionResult Liste()
@@ -212,6 +214,18 @@ namespace Gov.GTB.FirmaTalepTakip.Web.Controllers
                 CevapBasliklar = _refTalepCevapRepository.TalepCevapListesi()
             };
             return View("Cevapla", talepCevapViewModel);
+        }
+
+        public ActionResult Goruntule(int id)
+        {
+            var talepFromDb = _talepDetayFirmaRepository.TalepDetayGetir(id);
+            var talepViewModel = Mapper.Map<TalepDetayFirma, TalepDetayFirmaViewModel>(talepFromDb);
+            var kullanici = _userRepository.KullaniciGetirTcNoIle(talepViewModel.CevapDetayGumruk.TcNoIrtibatPersoneli);
+            if (kullanici != null)
+            {
+                talepViewModel.CevaplayanPersonel = kullanici.Adi + " " + kullanici.Soyadi;
+            }
+            return View(talepViewModel);
         }
     }
 }

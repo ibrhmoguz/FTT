@@ -283,6 +283,7 @@
     <Content Include="Views\Talep\Cevapla.cshtml" />
     <Content Include="Views\Gorevlendirme\Liste.cshtml" />
     <Content Include="Views\Gorevlendirme\Duzenle.cshtml" />
+    <Content Include="Views\Talep\Goruntule.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

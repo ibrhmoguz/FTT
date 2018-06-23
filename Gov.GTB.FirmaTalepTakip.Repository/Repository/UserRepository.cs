@@ -84,5 +84,10 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
                         KullaniciAdi = k.Adi + " " + k.Soyadi
                     }).ToList();
         }
+
+        public Kullanici KullaniciGetirTcNoIle(string tcNo)
+        {
+            return _dbContext.Kullanici.FirstOrDefault(k => k.TcNo.ToString().Equals(tcNo));
+        }
     }
 }

@@ -47,6 +47,8 @@ namespace Gov.GTB.FirmaTalepTakip.Model.ViewModel
 
         public string IrtibatPersoneli { get; set; }
 
+        public string CevaplayanPersonel { get; set; }
+
         public TalepDetayFirmaViewModel()
         {
             Konular = new List<RefTalepKonu>();

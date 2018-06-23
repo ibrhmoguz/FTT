@@ -82,6 +82,7 @@ namespace Gov.GTB.FirmaTalepTakip.Repository.Repository
             return _dbContext.TalepDetayi
                 .Include(t => t.RefTalepKonu)
                 .Include(t => t.CevapDetayGumruk)
+                .Include(t => t.CevapDetayGumruk.RefTalepCevap)
                 .Include(t => t.FirmaKullanici)
                 .FirstOrDefault(f => f.Id == talepId);
         }
